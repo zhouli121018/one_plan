@@ -6,7 +6,6 @@
           <van-nav-bar
             title="一个计划"
             :left-text="left_text"
-            right-text="关于"
             @click-left="onClickLeft"
           >
             <span slot="title" @click="gethome">一个计划
@@ -15,7 +14,8 @@
             <div slot="right" v-if="lottype && lottype.length>0">
               <span class="top_right_title" @click="show_ul">
                 {{lottype[active_lt].lotname}}
-                <van-icon name="arrow-down" style="vertical-align: text-top;"/>
+                <!-- <van-icon name="" /> -->
+                <img src="~@/assets/home/down.png" style="width:.25rem;height:.15rem;position:relative;top:-0.06rem;"/>
               </span>
               <ul class="right_top_ul" v-show="show_lt">
                 <li :class="{active:k== active_lt}" v-for="(l,k) in lottype" @click="change_lt(k)" :key="k">{{l.lotname}}</li>
@@ -32,14 +32,33 @@
         </van-swipe>
         <a :href="banner_url" v-show="false" id="banner_a">1</a>
         
-        <van-row :gutter="30" class="list_box text_center">
-          <van-col span="6" style="width:23%;padding-left:0;padding-right:0" v-for="(l,index) in list" :key="index">
-            <div class="item_box"  @click="jumpTo(l.link,l.islink)">
-              <img :src="l.src" alt="" class="max_width_100">
-              <span>{{l.title}}</span>
+        <div class="flex" style="padding-top:.52rem;">
+          <div class="flex_grow_1 text_center"  @click="jumpTo(l.link,l.islink)" v-for="(l,index) in new_links" :key="index">
+            <img :src="l.src" :alt="l.title" style="width:.65rem;height:.64rem;">
+            <div style="font-size:.37rem;padding:.2rem 0 .6rem;color:#383838;">{{l.title}}</div>
+          </div>
+        </div>
+
+        <div class="middle_block">
+          <div class="blue_bg">
+            <div style="color:#606266;">幸运飞艇</div>
+            <div class="flex" style="color:#333333;padding:.4rem 0 .3rem;">
+              <div class="flex_grow_1">距1919期开奖：<span style="color:#E8541E;">00:22:22</span></div>
+              <span>|</span>
+              <div class="flex_grow_1 text_right">当前时间：00:22:22</div>
             </div>
-          </van-col>
-        </van-row>
+            <div class="flex" style="color:#32373A;">
+              <div class="flex_grow_1">我的积分：30 </div>
+              <div class="text_right">1912期开奖号码：1 2 3 4 5 6 7</div>
+            </div>
+          </div>
+
+          <div style="background:linear-gradient(-90deg,#E7FFFC,#fff);padding:.3rem .4rem;border-radius:.1rem;margin-top:.3rem;font-size:0.37rem;color:#373737; ">
+            <span>玩法</span>
+            
+          </div>
+        </div>
+
 
         
 
@@ -178,8 +197,16 @@ export default {
         {src:require('../../assets/kjtx.png'),title:'开奖提醒',link:'/home/openRemind',islink: false},
         {src:require('../../assets/gg.png'),title:'公告',link:'/home/announcement/index',islink: localStorage.getItem('uid')?false:true},
         
-        {src:require('../../assets/dlzq.png'),title:'推荐赚钱',link:'/home/earnMoney',islink: localStorage.getItem('uid')?false:true}
+        {src:require('../../assets/dlzq.png'),title:'推荐赚钱',link:'/home/earnMoney',islink: localStorage.getItem('uid')?false:true},
+        {src:require('../../assets/dlzq.png'),title:'推荐赚钱',link:'/home/earnMoney',islink: localStorage.getItem('uid')?false:true},
         
+      ],
+      new_links:[
+        {src:require('../../assets/home/zhuanjifen.png'),title:'赚积分',link:'/personal/freeUse'},
+        {src:require('../../assets/home/vip.png'),title:'会员中心',link:''},
+        {src:require('../../assets/home/gonggao.png'),title:'公告栏',link:''},
+        {src:require('../../assets/home/like.png'),title:'我的收藏',link:''},
+        {src:require('../../assets/home/qunfa.png'),title:'群发计划',link:''},
       ],
       notice:'',
       advs:[],
@@ -437,9 +464,6 @@ export default {
     onClickLeft() {
       this.$router.push(this.left_path)
     },
-    onClickRight(){
-      this.$router.push('/personal/about')
-    },
     jumpTo( path, islink ){
       if(path.indexOf('/')==0){
         if(path == '/home/aPlan' && localStorage.getItem('_lottype')){
@@ -484,7 +508,7 @@ export default {
       this.$store.dispatch('set_issetkjtx',data.issetkjtx)
       this.$store.dispatch('set_apkurl',data.apkurl)
       // this.lottypeList = data.lottype//标题选择
-      this.lottype = data.lottype;
+      this.lottype = data.list;
       this.notices = data.notices
       // this.chooseName = this.lottypeList[0].lotname
     },
@@ -571,6 +595,14 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+.middle_block
+  padding:.43rem;
+  font-size:.37rem;
+  div.blue_bg
+    background:#EFF7FF;
+    box-shadow:0 0  .1rem #EFF7FF;
+    border-radius:.1rem;
+    padding:.4rem;
 .replication_solution
     background #EEEEEE
     padding .5rem  0
@@ -589,9 +621,9 @@ export default {
     text-align left
     white-space nowrap
 .top_right_title
-  color #ff5c0a
+  color #666
   .van-icon
-    color #ff5c0a
+    color #666
 
 .green
   color #2fc900
@@ -761,7 +793,7 @@ button.active_color{
     /* font-size:0.5rem; */
   /* } */
   #home_page .van-nav-bar__left .van-nav-bar__text{
-    color:#FC8463;
+    color:#138EE6;
   }
   #home_page .van-nav-bar__right .van-nav-bar__text{
     color:#2C2C2C;
@@ -796,22 +828,6 @@ button.active_color{
     height:16px;
     vertical-align: middle;
     margin:0 10px;
-  }
-  .list_box{
-    padding:10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .item_box{
-    padding:.2rem 0;
-    width:100%;
-  }
-  .item_box span{
-    display: block;
-    color: #767676;
-    font-size:.38rem
   }
   .rank_item{
     padding:10px 10px;
