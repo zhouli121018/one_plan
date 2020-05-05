@@ -2,11 +2,19 @@
     <div class="container">
         <title-bar title_name="邀请明细" />
         <div>
+            <div class="invite_title">
+                <div style="color:#74B0E0;font-size:0.37rem;">
+                    总积分
+                </div>
+                <div style="color:#FFFFFF;font-size:0.8rem;padding-top:.35rem;">
+                    2546.79
+                </div>
+            </div>
             <table style="width:100%;" v-if="list.length>0">
                 <tr>
                     <td class="head_td" style="padding-left:.2rem;">时间</td>
-                    <td class="head_td">被邀人</td>
-                    <td class="head_td">状态</td>
+                    <td class="head_td">来源</td>
+                    <td class="head_td">天数</td>
                 </tr>
                 <!-- <tr >
                     <td style="padding-left:.2rem">2019/01/01 19:19:12</td>
@@ -21,7 +29,7 @@
                 <tr v-for="(l,index) in list" :key="index">
                     <td style="padding-left:.2rem">{{l.createtime}}</td>
                     <td>{{l.username}}</td>
-                    <td>{{l.status}}</td>
+                    <td>{{l.days}}</td>
                 </tr>
             </table>
         </div>
@@ -59,16 +67,26 @@ export default {
 </script>
 
 <style  lang="stylus" scoped>
+.invite_title
+    background linear-gradient(90deg,#1B82D2,#1B82D2)
+    padding .3rem 0 .8rem .45rem
+.container
+    padding-top: 46px !important;
 table td.head_td{
-    background:#eee;
-    padding:.2rem 0;
+    background:#F5F5F5;
     font-weight:bold;
-    font-size:.42rem;
+    font-size:0.37rem;
+    color:#333333;
 }
 table td{
     padding-top:.2rem;
     padding-bottom:.2rem;
-    font-size:.4rem
+    font-size:.35rem
+    color:#989898;
+    padding:.4rem;
+    border-bottom:.03rem solid #f5f5f5;
 }
+/deep/ .van-hairline--bottom::after
+        border-bottom-width: 0
     
 </style>

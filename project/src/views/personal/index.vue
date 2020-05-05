@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <title-bar title_name="用户中心" />
+        <title-bar title_name="会员中心" />
         <div class="my_title" v-if="info != null">
             <img class="my_title_photo" :src="$https_img+info.img" alt="">
             <div class="my_title_center">
@@ -53,7 +53,7 @@
             <van-cell title="我的推荐页" is-link icon="tj" @click="jumpTo('/personal/recommend')"/>
             <van-cell title="推荐赚钱" is-link icon="dlzq"  @click="jumpTo('/home/earnMoney')"/>
             <van-cell title="开奖提醒设置" is-link icon="kjtx"  @click="jumpTo('/home/openRemind')"/>
-            <van-cell title="免费使用" is-link icon="free"  @click="jumpTo('/personal/freeUse')"/>
+            <van-cell title="赚会员天数" is-link icon="free"  @click="jumpTo('/personal/freeUse')"/>
         </div>
         <div class="xian"></div>
         <div>

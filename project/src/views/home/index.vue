@@ -40,7 +40,7 @@
         </div>
 
         <div class="middle_block">
-          <div class="blue_bg">
+          <div class="blue_bg" style="box-shadow:0 0 .2rem #EEEEEE;">
             <div style="color:#606266;">幸运飞艇</div>
             <div class="flex" style="color:#333333;padding:.4rem 0 .3rem;">
               <div class="flex_grow_1">距1919期开奖：<span style="color:#E8541E;">00:22:22</span></div>
@@ -53,67 +53,153 @@
             </div>
           </div>
 
-          <div style="background:linear-gradient(-90deg,#E7FFFC,#fff);padding:.3rem .4rem;border-radius:.1rem;margin-top:.3rem;font-size:0.37rem;color:#373737; ">
-            <span>玩法</span>
-            
+          <div style="border-radius:.1rem;margin-top:.3rem;font-size:0.37rem;color:#373737;box-shadow:0 0 .2rem #EEEEEE;white-space:nowrap;">
+              <div class="flex" style="background:linear-gradient(-90deg,#E7FFFC,#fff);padding:.3rem .4rem;border-radius:.1rem; ">
+                <span>玩法</span>
+                <div style="border:1px solid #0BA194;padding:.1rem;margin:0 .2rem 0 .1rem;border-radius:.05rem;min-width:.9rem;">
+                  <div class="flex text_center">
+                    <span class="flex_grow_1" style="color:#0BA194;">冠军定码</span> 
+                    <img src="~@/assets/home/down_blue.png" alt="1" style="width:.25rem;margin-left:.1rem;">
+                  </div>
+                </div>
+
+                <span>码数</span>
+                <div style="border:1px solid #0BA194;padding:.1rem;margin:0 .2rem 0 .1rem;border-radius:.05rem;min-width:.9rem;">
+                  <div class="flex text_center">
+                    <span class="flex_grow_1" style="color:#0BA194;">4</span> 
+                    <img src="~@/assets/home/down_blue.png" alt="1" style="width:.25rem;margin-left:.1rem;">
+                  </div>
+                </div>
+
+                <span>计划期数</span>
+                <div style="border:1px solid #0BA194;padding:.1rem;margin:0 0 0 .1rem;border-radius:.05rem;min-width:.9rem;">
+                  <div class="flex text_center">
+                    <span class="flex_grow_1" style="color:#0BA194;">4</span> 
+                    <img src="~@/assets/home/down_blue.png" alt="1" style="width:.25rem;margin-left:.1rem;">
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex text_center" style="">
+                <div class=" flex_grow_1" style="padding:.3rem .1rem .3rem .4rem;">
+                  <img src="~@/assets/home/refresh.png" alt="1" style="width:.45rem;">
+                  <span>换一批计划</span>
+                </div>
+                <div class=" flex_grow_1" style="padding:.3rem .1rem;border-left:1px solid #EEEEEE;border-right:1px solid #EEEEEE;">
+                  <img src="~@/assets/home/like_o.png" alt="1" style="width:.45rem;">
+                  <span>收藏当前计划</span>
+                </div>
+                <div class=" flex_grow_1 text_right" style="padding:.3rem .4rem .3rem .1rem;">
+                  <img src="~@/assets/home/history.png" alt="1" style="width:.45rem;">
+                  <span>历史开奖</span>
+                </div>
+              </div>
           </div>
-        </div>
 
+          <div style="box-shadow:0 0 .2rem #EEEEEE;margin-top:.3rem;padding:.4rem 0 .7rem;font-size:.37rem; ">
+            <table border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <th style="border-bottom:1px solid #eee;">计划期次</th>
+                <th style="border-bottom:1px solid #eee;">计划内容</th>
+                <th style="border-bottom:1px solid #eee;">追号中</th>
+              </tr>
+              <tr>
+                <td>112-114</td>
+                <td style="color:#E7541E">使用积分查看</td>
+                <td>追号中</td>
+              </tr>
+              <tr>
+                <td>123</td>
+                <td>1 2 3 4 5 </td>
+                <td>112期中</td>
+              </tr>
+              <tr>
+                <td>123</td>
+                <td>1 2 3 4 5 </td>
+                <td>123</td>
+              </tr>
+              <tr>
+                <td>123</td>
+                <td>123</td>
+                <td>112期中</td>
+              </tr>
+            </table>
 
-        
-
-        <div style="background:#F5F5F5;height:0.2rem;"></div>
-        <div v-if="planInfo">
-          <div class="lottery_time flex">
-            <div style="width:47%;font-size: 0.38rem;white-space:nowrap;">距{{planInfo.curissue}}期开奖：<span class="green"> {{kjdjs}}</span></div>
-            <div style="width:51%;text-align: center;font-size: 0.38rem;"><span style="display:inline-block;white-space: nowrap;">当前时间：</span><span class="blue" style="white-space:nowrap;"> {{curtime}}</span></div>
+            <div style="font-size:.37rem;color:#138EE6;text-align:center;margin:.28rem 0 .48rem;">获取更多</div>
+            <div class="text_center">
+              <van-button size="large" style="background:#108FE9;color:#fff;width:90%;border-radius:.1rem;height:.83rem;line-height:.73rem;font-size:.37rem;" @click="show_tt = true">复制方案</van-button>
+            </div>
           </div>
-          <div class="lottery_time lottery_times">
-              <span>{{planInfo.preissue}}期开奖号码:</span> <i class="lottery_number">{{planInfo.kjnum}}</i>
+
+          <div class="card_item_box">
+            <div class="item_title">温馨提示</div>
+            <div style="padding:.38rem 0;line-height:1.6;">
+              想回看当前计划，请收藏在切换。切换后无法找回，是否切换当前计划?
+              <div>
+                计划条数： <span style="color:#108EE9;font-size:0.32rem;"> 初始10条 - 20条</span> 
+              </div>
+            </div>
+            <van-row gutter="20" style="">
+              <van-col span="12">
+                <van-button size="large" class="cancel_btn">取消</van-button>
+              </van-col>
+              <van-col span="12">
+                <van-button size="large" class="sure_btn">切换</van-button>
+              </van-col>
+            </van-row>
           </div>
-        </div>
 
-        <div style="background:#F5F5F5;height:0.2rem"></div>
+          <div class="card_item_box">
+            <div class="item_title">收藏计划</div>
+            <div style="padding:.38rem 0;line-height:1.6;">
+              <!-- 想回看当前计划，请收藏在切换。切换后无法找回，是否切换当前计划? -->
+              <div>
+                计划名称： <span style="color:#108EE9;font-size:0.32rem;"> 幸运飞艇冠军定码4码4期020812：22：22 </span> 
+              </div>
+            </div>
+            <van-row gutter="20" style="">
+              <van-col span="12">
+                <van-button size="large" class="cancel_btn">取消</van-button>
+              </van-col>
+              <van-col span="12">
+                <van-button size="large" class="sure_btn">收藏</van-button>
+              </van-col>
+            </van-row>
+          </div>
 
-        <van-row :gutter="10" class="flex" style="padding-bottom:0.2rem;padding:.2rem;flex-wrap: wrap;" v-if="lottype && lottype.length>0 && lottype[active_lt].plantypes">
-            <van-col :span="6" v-for="(y,index) in lottype[active_lt].plantypes" :key="index" >
-                <van-button class="btn_fa" :class="{active_color:index==active_pt}" size="large" @click="change_pt(index,y.plantype)">{{y.planname}}</van-button>
-            </van-col>
-        </van-row>
+          <div class="card_item_box">
+            <div class="item_title">积分查看提示</div>
+            <div style="padding:.38rem 0;line-height:1.6;">
+              查看计划将消耗你1积分，1积分将可以持续使用24小时。
+            </div>
+            <van-row gutter="20" style="">
+              <van-col span="12">
+                <van-button size="large" class="cancel_btn">取消</van-button>
+              </van-col>
+              <van-col span="12">
+                <van-button size="large" class="sure_btn">使用</van-button>
+              </van-col>
+            </van-row>
+          </div>
 
-        <div style="background:#F5F5F5;padding:0.2rem .4rem;text-align:right;color:red;font-size:.35rem;" v-if="lottype && lottype.length>0 && lottype[active_lt].plantypes">
-          {{lottype[active_lt].plantypes[active_pt].plandesc}}
-        </div>
-
-        <van-row :gutter="10" class="flex" style="padding-bottom:0.2rem;padding:.2rem;flex-wrap: wrap;">
-            <van-col :span="6" v-for="(y,index) in fangansList" :key="index" >
-                <van-button class="btn_fa" :class="{active_color:index==active_fa}" size="large" @click="change_fa(index,y.fanganid)">{{y.fanganname}}</van-button>
-            </van-col>
-        </van-row>
-
-
-        <table>
-            <tr>
-                <th>期次</th>
-                <th>计划内容</th>
-                <th>几期中</th>
-                <th>盈亏</th>
-            </tr>
-            <tr v-for="(item,index) in planInfoList" :key="index">
-                <td>{{item.issue}}</td>
-                <td v-if="item.content == '会员权限'" @click="toOpeningMember"><van-button size="small" class="membership_privileges">{{item.content}}</van-button></td>
-                <td v-else>{{item.content}}</td>
-                <td>{{item.hitnum}}</td>
-                <td>{{item.yingkui}}</td>
-            </tr>
-        </table>
-
-        <div class="for_more">
-            <van-button size="small" class="no_border_btn" @click="getplans">获取更多</van-button>
-        </div>
-        
-        <div class="replication_solution">
-            <van-button size="large" style="background:#108FE9;color:#fff;width:90%" @click="show_tt = true">复制方案</van-button>
+          <div class="card_item_box">
+            <div class="item_title">复制方案</div>
+            <div style="padding:.38rem 0;line-height:1.6;">
+              <!-- 想回看当前计划，请收藏在切换。切换后无法找回，是否切换当前计划? -->
+              <div>
+                最近条数： <span style="color:#108EE9;font-size:0.32rem;"> 20 </span> 
+              </div>
+            </div>
+            <van-row gutter="20" style="">
+              <van-col span="12">
+                <van-button size="large" class="cancel_btn">取消</van-button>
+              </van-col>
+              <van-col span="12">
+                <van-button size="large" class="sure_btn">复制</van-button>
+              </van-col>
+            </van-row>
+          </div>
+          
         </div>
 
         <van-dialog 
@@ -595,6 +681,28 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+.card_item_box
+  box-shadow:0 0 .2rem #EEEEEE;
+  margin-top:.4rem;
+  padding:.4rem .4rem .48rem;
+  font-size:.37rem;
+  .item_title
+    padding-bottom:.4rem;
+    border-bottom:1px solid #eee;
+    text-align:center;
+    font-size:0.4rem;
+    font-weight:bold;
+  .cancel_btn,.sure_btn
+    border-radius:0.02rem;
+    height:.83rem;
+    line-height:.73rem;
+    font-size:0.37rem;
+  .cancel_btn
+    background:#EEEEEE;
+    color:#333333;
+  .sure_btn
+    background:#189BFF;
+    color:#ffffff;
 .middle_block
   padding:.43rem;
   font-size:.37rem;
@@ -603,10 +711,6 @@ export default {
     box-shadow:0 0  .1rem #EFF7FF;
     border-radius:.1rem;
     padding:.4rem;
-.replication_solution
-    background #EEEEEE
-    padding .5rem  0
-    text-align center
 .right_top_ul
   background #fff
   position absolute
@@ -636,66 +740,26 @@ export default {
     height:.6rem;
     line-height:.4rem
     font-size .32rem
-.for_more
-    margin .2rem auto
-    text-align center
 table 
     font-size .32rem
     width 100%
-    border 1px solid #cccccc
     border-right none
-    tr,td,th 
-        border 1px solid #E5E5E5
     tr 
         border-right none
-    td,th   
+    th   
         color #A8A8A8
-    th,td 
-        padding .3rem 0
+        padding-bottom .4rem
+        color #373737
+    td 
+        padding .2rem 0
         text-align center
+        color #373737
     td  
         color #2B2B2B
-        font-size .4rem
-    td:first-child
-        color #6B6B6B
-    td:first-child
-        background #E5E5E5
+        font-size .35rem
     th
-        background #F5F5F5
-        font-size .42rem
-.btn_fa
-  height:.8rem;
-  line-height:.6rem;
-  margin: .1rem 0
-  font-size .42rem
-.lottery_time
-    width 100%
-    display flex
-    justify-content space-around
-    align-items center
-    color #727272
-    border-bottom 1px solid #E5E5E5
-    box-sizing border-box
-    >div
-        display flex
-        width 49%
-        font-size .28rem
-        padding .5rem .1rem
-        box-sizing border-box
-        justify-content center
-        &:first-child
-            border-right 1px solid #E5E5E5
-.lottery_times
-    padding .5rem .2rem
-    font-size .28rem
-    border none!important
-    justify-content left 
-.lottery_number
-    display inline-block
-    padding-left .2rem
-    color #000
-    font-size .45rem
-    font-weight bold
+        font-size .37rem
+
 button.active_color{
   background:#fc7953;
   border-color:#fc7953;
@@ -720,18 +784,6 @@ button.active_color{
   padding-bottom:0.2rem;
 }
 .diy_font .van-cell__right-icon{
-  font-size:0.3rem;
-}
-.fangan_item_box{
-  background:#fff;
-  border-radius:0.2rem;
-  box-shadow: 0 0 0.2rem #ddd;
-  padding:0.4rem .2rem;
-  line-height:1.6;
-  margin-bottom:0.4rem;
-}
-.fangan_item_box>span{
-  color:#6C6361;
   font-size:0.3rem;
 }
 .van-cell .van-cell__title span{
@@ -807,43 +859,9 @@ button.active_color{
     width:100%;
     border-radius:.2rem;
   }
-  .gonggao_box{
-    background:#F5F5F5;
-    padding:4px;
-    margin: 4px 0;
-    display:flex;
-    align-items:center;
-    height:30px;
-    padding-left:12px;
-  }
-  .gonggao_box .grow_1{
-    flex-grow:1;
-  }
   .grow_1 .van-notice-bar{
     padding:0;
     background:none !important;
-  }
-  .gonggao_img{
-    width:20px;
-    height:16px;
-    vertical-align: middle;
-    margin:0 10px;
-  }
-  .rank_item{
-    padding:10px 10px;
-    border-top:1px solid #F0F0F0;
-  }
-  .rank_item .desc>h3{
-    font-weight:bold;
-  }
-  .rank_item .desc>div{
-    color:#8D8D8D;
-    padding:8px 0 0;
-  }
-  .rank_item_bottom{
-    color:#707070;
-    padding:10px 0;
-    font-size:16px;
   }
   #home_page .tabs_type .van-tab{
     color:#1D1D1D;
@@ -862,12 +880,6 @@ button.active_color{
     right: 0;
     z-index: 1000;
     top: 0;
-  }
-  .no_radius_btn{
-    border-radius:0.1rem;
-    line-height:1;
-    width:1.1rem;
-    background:#fff;
   }
   
 </style>
