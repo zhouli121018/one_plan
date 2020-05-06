@@ -68,7 +68,16 @@ export default [
                     title: '推荐赚钱',
                     cache: true
                 }
-            }
+            },
+            {//历史开奖
+                path: 'hisKj',
+                name: 'hisKj',
+                component: _import('home/hisKj'),
+                meta: {
+                    title: '历史开奖',
+                    cache: false
+                }
+            },
         ]
     },
     {
@@ -137,7 +146,16 @@ export default [
                     title:'邀请明细',
                     cache:false
                 }
-            }
+            },
+            {//我的收藏
+                path: 'like',
+                name:'like',
+                component: _import('personal/like'),
+                meta:{
+                    title:'我的收藏',
+                    cache: true
+                }
+            },
         ]
     },
     {//登录

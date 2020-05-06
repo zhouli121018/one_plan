@@ -152,3 +152,13 @@ export function getfanganrank (data) {
   })
 }
 
+//13、2获取开奖列表协议 getkjhis.php
+export function getkjhis (data) {
+  return request({
+    url: '/getkjhis.php ',
+    method: 'post',
+    data:{
+      ...data
+    }
+  })
+}

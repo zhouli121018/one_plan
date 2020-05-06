@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import {getabout } from '@/api'
+import {getnotice } from '@/api'
 export default {
     data(){
         return {
@@ -13,15 +13,18 @@ export default {
         }
     },
     methods:{
-        async getabout() {
-            const { data } = await getabout();
-            if(data.errorcode == 0 && data.content){
-                this.content = data.content;
-            }
+        async getnotice () {
+          const { data }    = await getnotice({
+              noticeid: 2
+          });
+          if(data.errorcode==0){
+            this.title = data.title;
+            this.content = data.content;
+          }
         },
     },
     created(){
-        this.getabout();
+        this.getnotice();
     }
 }
 </script>

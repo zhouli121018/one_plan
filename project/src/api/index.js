@@ -133,3 +133,71 @@ export function getinvitelist(data) {
         }
     })
 }
+
+//14、2获取收藏列表协议 mylike.php 
+export function mylike(data) {
+    return request({
+        url: '/mylike.php',
+        method: 'post',
+        data: {
+            ...data
+        }
+    })
+}
+
+//16、2收藏协议 like.php
+export function like(data) {
+    return request({
+        url: '/like.php',
+        method: 'post',
+        data: {
+            ...data
+        }
+    })
+}
+
+//16、2删除收藏协议 dislike.php
+export function dislike(data) {
+    return request({
+        url: '/dislike.php',
+        method: 'post',
+        data: {
+            ...data
+        }
+    })
+}
+
+//17、2修改计划名称协议 planname_modify.php
+export function planname_modify(data) {
+    return request({
+        url: '/planname_modify.php',
+        method: 'post',
+        data: {
+            ...data
+        }
+    })
+}
+
+//5、2获取公告列表协议 getnoticelist.php 
+export function getnoticelist(data) {
+    return request({
+        url: '/getnoticelist.php',
+        method: 'post',
+        data: {
+            ...data
+        }
+    })
+}
+
+//6、2获取公告内容协议 getnotice.php
+export function getnotice(data) {
+    return request({
+        url: '/getnotice.php',
+        method: 'post',
+        data: {
+            ...data
+        }
+    })
+}
+
+

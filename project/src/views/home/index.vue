@@ -89,7 +89,7 @@
                   <img src="~@/assets/home/like_o.png" alt="1" style="width:.45rem;">
                   <span>收藏当前计划</span>
                 </div>
-                <div class=" flex_grow_1 text_right" style="padding:.3rem .4rem .3rem .1rem;">
+                <div class=" flex_grow_1 text_right" style="padding:.3rem .4rem .3rem .1rem;" @click="jumpTo('/home/hisKj?lottype=801')">
                   <img src="~@/assets/home/history.png" alt="1" style="width:.45rem;">
                   <span>历史开奖</span>
                 </div>
@@ -289,10 +289,10 @@ export default {
       ],
       new_links:[
         {src:require('../../assets/home/zhuanjifen.png'),title:'赚积分',link:'/personal/freeUse'},
-        {src:require('../../assets/home/vip.png'),title:'会员中心',link:''},
-        {src:require('../../assets/home/gonggao.png'),title:'公告栏',link:''},
-        {src:require('../../assets/home/like.png'),title:'我的收藏',link:''},
-        {src:require('../../assets/home/qunfa.png'),title:'群发计划',link:''},
+        {src:require('../../assets/home/vip.png'),title:'会员中心',link:'/personal/index'},
+        {src:require('../../assets/home/gonggao.png'),title:'公告栏',link:'/home/announcement/index'},
+        {src:require('../../assets/home/like.png'),title:'我的收藏',link:'/personal/like'},
+        {src:require('../../assets/home/qunfa.png'),title:'群发计划',link:'/home/announcement/detail?noticeid=1'},
       ],
       notice:'',
       advs:[],

@@ -2,25 +2,35 @@
     <div class="container">
         <title-bar title_name="会员中心" />
         <div class="my_title" v-if="info != null">
-            <img class="my_title_photo" :src="$https_img+info.img" alt="">
-            <div class="my_title_center">
-                <div>
-                    <span style="font-weight:bold;font-size:0.45rem;color:#232323;">{{info.uname}}</span>
+            <div class="flex_grow_1">
+                <div class="flex">
+                    <img class="my_title_photo" :src="$https_img+info.img" alt="">
+                    <div class="my_title_center">
+                        <div>
+                            <span style="font-weight:bold;font-size:0.37rem;color:#232323;">账号：{{info.account}}</span>
+                        </div>
+                        <div class="goldcoins_fans">
+                            <!-- <p><span>金币: </span><span class="red">{{info.coin}}</span></p>
+                            <p><span>粉丝: </span><span class="red">{{info.fans}}</span></p> -->
+                            <!-- $isvip='1';//是否VIP 1是vip，0不是vip -->
+                            <img v-if="info.isvip == 1" class="my_title_center_img" src="~@/assets/vip.png" alt="">
+                            <img v-else class="my_title_center_img" src="~@/assets/vip-gary.png" alt="">
+                            <span v-if="info.isvip == 1" class="red">(剩余{{info.vipdate}}天)</span>
+                            <span v-else class="red">(非会员)</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="goldcoins_fans">
-                    <!-- <p><span>金币: </span><span class="red">{{info.coin}}</span></p>
-                    <p><span>粉丝: </span><span class="red">{{info.fans}}</span></p> -->
-                    <!-- $isvip='1';//是否VIP 1是vip，0不是vip -->
-                    <img v-if="info.isvip == 1" class="my_title_center_img" src="~@/assets/vip.png" alt="">
-                    <img v-else class="my_title_center_img" src="~@/assets/vip-gary.png" alt="">
-                    <span v-if="info.isvip == 1" class="red">(剩余{{info.vipdate}}天)</span>
-                    <span v-else class="red">(非会员)</span>
+                <div>
+                    <div style="color:#989898;font-size:.29rem;">使用1积分可以使用24小时计划</div>
                 </div>
             </div>
-            <van-button v-if="info.isvip == 0" class="orange_btn" round @click="jumpTo('/home/openingMember')" style="white-space:nowrap;">开通会员</van-button>
-            <van-button v-else class="orange_btn" round @click="jumpTo('/home/openingMember')" style="white-space:nowrap;">会员续费</van-button>
+            
+            <!-- <van-button v-if="info.isvip == 0" class="orange_btn" round @click="jumpTo('/home/openingMember')" style="white-space:nowrap;">开通会员</van-button> -->
+            <van-button class="orange_btn" round @click="jumpTo('/personal/freeUse')" style="white-space:nowrap;">免费获取会员天数</van-button>
+            
         </div>
-        <div class="my_title_box">
+
+        <div class="my_title_box" v-if="false">
             <div class="my_title flex" style="border:none;width:47.5%" v-if="info">
                 <img class="my_title_photo title_photo" src="~@/assets/icon.png" alt="">
                 <div class="my_title_center my_centers flex_grow_1" style="padding-left:.1rem;">
@@ -49,21 +59,18 @@
             </div>
         </div>
         <!-- <div class="xian"></div>         -->
-        <div>
+        <div style="margin:0.4rem 0.3rem;border-radius:.2rem;overflow: hidden;">
+            <van-cell title="积分明细" is-link icon="jifen" @click="jumpTo('/personal/inviteDetail')"/>
             <van-cell title="我的推荐页" is-link icon="tj" @click="jumpTo('/personal/recommend')"/>
-            <van-cell title="推荐赚钱" is-link icon="dlzq"  @click="jumpTo('/home/earnMoney')"/>
-            <van-cell title="开奖提醒设置" is-link icon="kjtx"  @click="jumpTo('/home/openRemind')"/>
-            <van-cell title="赚会员天数" is-link icon="free"  @click="jumpTo('/personal/freeUse')"/>
-        </div>
-        <div class="xian"></div>
-        <div>
+            <van-cell title="免费使用" is-link icon="freeuse" @click="jumpTo('/personal/freeUse')"/>
+            <van-cell title="群发计划" is-link icon="qunfa" @click="jumpTo('/home/announcement/detail?noticeid=1')"/>
+            <van-cell title="我的收藏" is-link icon="like"  @click="jumpTo('/personal/like')"/>
             <van-cell title="关于" is-link icon="about"  @click="jumpTo('/personal/about')"/>
         </div>
 
-        <div class="xian"></div>
 
         <div class="text_center">
-            <van-button @click="logout" type="danger" size="small" style="width:30%">退出账号</van-button>
+            <van-button @click="logout" size="large"  style="border:0;font-size:.4rem;color:#232323;">退出账号</van-button>
         </div>
 
         <van-dialog 
@@ -208,11 +215,14 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+.xian
+    background #f4f4f4
+    height .4rem
 .text_center
-    padding .2rem
+    padding 0 .3rem
     text-align center
 .container
-    background #F5F5F5
+    background #F4F4F4
 .my_centers
     width 60%!important
     p 
@@ -222,47 +232,62 @@ export default {
             font-size .35rem
 /deep/ .van-cell
     line-height .88rem
+    
+   
+/deep/ .van-icon-jifen::before
+    content ''
+    width .88rem
+    height .88rem
+    background url('~@/assets/personal/jifendetail.png') no-repeat
+    background-size contain
+
 /deep/ .van-icon-tj::before
     content ''
     width .88rem
     height .88rem
-    background url('~@/assets/tj_p.png') no-repeat
+    background url('~@/assets/personal/tuijian.png') no-repeat
     background-size contain
-/deep/ .van-icon-dlzq::before
+
+/deep/ .van-icon-freeuse::before
     content ''
     width .88rem
     height .88rem
-    background url('~@/assets/dlzq_p.png') no-repeat
+    background url('~@/assets/personal/freeuse.png') no-repeat
     background-size contain
-/deep/ .van-icon-kjtx::before
+
+/deep/ .van-icon-qunfa::before
     content ''
     width .88rem
     height .88rem
-    background url('~@/assets/kjtx_p.png') no-repeat
+    background url('~@/assets/personal/qunfa.png') no-repeat
     background-size contain
-/deep/ .van-icon-free::before
+
+/deep/ .van-icon-like::before
     content ''
     width .88rem
     height .88rem
-    background url('~@/assets/free.png') no-repeat
+    background url('~@/assets/personal/like.png') no-repeat
     background-size contain
+
 /deep/ .van-icon-about::before
     content ''
     width .88rem
     height .88rem
-    background url('~@/assets/about_zzh.png') no-repeat
+    background url('~@/assets/personal/about.png') no-repeat
     background-size contain
+
 .my_title
-    width: 100%
-    padding .2rem 
+    // width: 100%
+    padding .4rem .35rem 
     box-sizing border-box 
     display flex
     align-items center
     border-bottom 1px solid #f0f0f0
     background #fff
-    margin-top:-.1rem
+    // margin-top:-.1rem
+    margin .4rem .3rem
+    border-radius .2rem
     .my_title_center
-        width 53%
         span 
             line-height .5rem
             padding-right .1rem

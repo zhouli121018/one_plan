@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import {getnotices } from '@/api/home'
+import {getnoticelist } from '@/api'
 export default {
     data (){
         return {
@@ -17,8 +17,8 @@ export default {
         }
     },
     methods:{
-        async getnotices () {
-          const { data }    = await getnotices();
+        async getnoticelist () {
+          const { data }    = await getnoticelist();
           this.list = data.list;
         },
         goDetail(data){
@@ -46,7 +46,7 @@ export default {
         }
         this.$route.meta.isBack=false;
         if(!this.$store.getters.isback || this.isFirstEnter){
-            this.getnotices()
+            this.getnoticelist()
         }
         this.isFirstEnter=false;
         this.$store.dispatch('set_isback',false)

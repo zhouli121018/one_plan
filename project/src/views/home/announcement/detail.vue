@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import {notice } from '@/api/home'
+import {getnotice } from '@/api'
 export default {
     data(){
         return {
@@ -14,8 +14,8 @@ export default {
         }
     },
     methods:{
-        async notice () {
-          const { data }    = await notice({
+        async getnotice () {
+          const { data }    = await getnotice({
               noticeid:this.$route.query.noticeid
           });
           if(data.errorcode==0){
@@ -26,7 +26,7 @@ export default {
     },
     created(){
         // this.title_name = this.$route.query.title
-        this.notice();
+        this.getnotice();
     }
 }
 </script>
