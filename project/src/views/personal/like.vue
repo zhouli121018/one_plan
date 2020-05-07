@@ -37,7 +37,7 @@ import { Dialog } from 'vant'
 export default {
     data (){
         return {
-            list:[{planname:'测啊测啊当测啊测啊当测啊测啊当测啊测啊当时是当时是时是当时是测啊测啊当时是当时是时是当时是测啊测啊当测啊测啊当时是当时是时是当时是测啊测啊当时是当时是时是当时是',id:0,createtime:'2020-05-06'},{planname:'测啊当时是',id:0,createtime:'2020-05-06 11:00:00'},{planname:'测啊当时是',id:0,createtime:'2020-05-06'}],
+            list:[],
             isFirstEnter:false,
             newname:'',
             show_tt:false,
@@ -50,7 +50,7 @@ export default {
                 sid: localStorage.getItem('sid'),
                 uid: localStorage.getItem('uid')
             });
-        //   this.list = data.list;
+          this.list = data.list;
         },
         show_newname(id){
             this.cur_user_plan_id = id;
@@ -86,7 +86,7 @@ export default {
             }).then(() => {
                 // on confirm
                 this.cur_user_plan_id = id
-                this.like();
+                this.dislike();
             }).catch(() => {
             
             // on cancel
@@ -98,6 +98,9 @@ export default {
                 uid: localStorage.getItem('uid'),
                 user_plan_id: this.cur_user_plan_id
             })
+            if(data.errorcode==0){
+                this.mylike();
+            }
         },
         async planname_modify(){
             const { data } = await planname_modify({
@@ -106,6 +109,9 @@ export default {
                 user_plan_id: this.cur_user_plan_id,
                 newname: this.newname
             })
+            if(data.errorcode==0){
+                this.mylike();
+            }
         }
     },
     created(){

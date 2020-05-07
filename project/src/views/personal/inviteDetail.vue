@@ -4,10 +4,10 @@
         <div>
             <div class="invite_title">
                 <div style="color:#74B0E0;font-size:0.37rem;">
-                    总积分
+                    总天数
                 </div>
                 <div style="color:#FFFFFF;font-size:0.8rem;padding-top:.35rem;">
-                    2546.79
+                    {{day_sum}} <span style="color:#74B0E0;font-size:0.37rem;">天</span>
                 </div>
             </div>
             <table style="width:100%;" v-if="list.length>0">
@@ -44,7 +44,8 @@ export default {
             title_name: '邀请明细',
             title:'',
             list:[],
-            content:''
+            content:'',
+            day_sum:0,
         }
     },
     methods:{
@@ -58,6 +59,7 @@ export default {
             }
             const { data } = await getinvitelist(obj);
             this.list = data.list;
+            this.day_sum = data.day_sum;
         },
     },
     created(){

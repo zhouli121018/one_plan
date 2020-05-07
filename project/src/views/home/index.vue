@@ -39,57 +39,79 @@
           </div>
         </div>
 
-        <div class="middle_block">
+        <div class="middle_block" v-if="planInfo && lottype && lottype.length>0">
           <div class="blue_bg" style="box-shadow:0 0 .2rem #EEEEEE;">
-            <div style="color:#606266;">幸运飞艇</div>
-            <div class="flex" style="color:#333333;padding:.4rem 0 .3rem;">
-              <div class="flex_grow_1">距1919期开奖：<span style="color:#E8541E;">00:22:22</span></div>
-              <span>|</span>
-              <div class="flex_grow_1 text_right">当前时间：00:22:22</div>
+            <div class="flex" style="color:#606266;">
+              <div>{{lottype[active_lt].lotname}}</div> 
+              <div class="flex_grow_1 text_right" style="font-size:.32rem">会员天数:{{planInfo.vipdays}} </div>
             </div>
-            <div class="flex" style="color:#32373A;">
-              <div class="flex_grow_1">我的积分：30 </div>
-              <div class="text_right">1912期开奖号码：1 2 3 4 5 6 7</div>
+            <div class="flex" style="color:#333333;padding:.4rem 0 .3rem;">
+              <div class="flex_grow_1">距{{planInfo.endissue}}期开奖：<span style="color:#E8541E;">{{kjdjs}}</span></div>
+              <span>|</span>
+              <div class="flex_grow_1 text_right">当前时间：{{curtime}}</div>
+            </div>
+            <div class="" style="color:#32373A;white-space:nowrap;">
+              
+              <div class="">{{planInfo.preissue}}期开奖号码：{{planInfo.prekjnum}}</div>
             </div>
           </div>
 
           <div style="border-radius:.1rem;margin-top:.3rem;font-size:0.37rem;color:#373737;box-shadow:0 0 .2rem #EEEEEE;white-space:nowrap;">
               <div class="flex" style="background:linear-gradient(-90deg,#E7FFFC,#fff);padding:.3rem .4rem;border-radius:.1rem; ">
-                <span>玩法</span>
-                <div style="border:1px solid #0BA194;padding:.1rem;margin:0 .2rem 0 .1rem;border-radius:.05rem;min-width:.9rem;">
-                  <div class="flex text_center">
-                    <span class="flex_grow_1" style="color:#0BA194;">冠军定码</span> 
-                    <img src="~@/assets/home/down_blue.png" alt="1" style="width:.25rem;margin-left:.1rem;">
+                <span v-if="lottype && lottype.length>0 && lottype[active_lt].playtypes && lottype[active_lt].playtypes.length>0">玩法</span>
+                <div style="position:relative;" v-if="lottype && lottype.length>0 && lottype[active_lt].playtypes && lottype[active_lt].playtypes.length>0">
+                  <div style="border:1px solid #0BA194;padding:.1rem;margin:0 .2rem 0 .1rem;border-radius:.05rem;min-width:.9rem;" @click="click_pt">
+                    <div class="flex text_center">
+                      <span class="flex_grow_1" style="color:#0BA194;">{{lottype[active_lt].playtypes[active_pt].playname}}</span> 
+                      <img src="~@/assets/home/down_blue.png" alt="1" style="width:.25rem;margin-left:.1rem;">
+                    </div>
                   </div>
+                  <ul v-show="show_pt" style="position:absolute;top:.7rem;left:.1rem;border:1px solid #0BA194;min-width:85%;background:#fff;box-shadow:0 0 .12rem #0BA194;max-height:5rem;overflow:auto;">
+                    <li @click="change_pt(k)" class="check_li" v-for="(p,k) in lottype[active_lt].playtypes" :class="{active:active_pt==k}" :key="k">{{p.playname}}</li>
+                  </ul>
                 </div>
+                
 
-                <span>码数</span>
-                <div style="border:1px solid #0BA194;padding:.1rem;margin:0 .2rem 0 .1rem;border-radius:.05rem;min-width:.9rem;">
-                  <div class="flex text_center">
-                    <span class="flex_grow_1" style="color:#0BA194;">4</span> 
-                    <img src="~@/assets/home/down_blue.png" alt="1" style="width:.25rem;margin-left:.1rem;">
+                <span v-if="lottype && lottype.length>0 && lottype[active_lt].playtypes && lottype[active_lt].playtypes.length>0 && lottype[active_lt].playtypes[active_pt].mashu">码数</span>
+                <div style="position:relative;" v-if="lottype && lottype.length>0 && lottype[active_lt].playtypes && lottype[active_lt].playtypes.length>0 && lottype[active_lt].playtypes[active_pt].mashu">
+                  <div style="border:1px solid #0BA194;padding:.1rem;margin:0 .2rem 0 .1rem;border-radius:.05rem;min-width:.9rem;" @click="click_ms">
+                    <div class="flex text_center">
+                      <span class="flex_grow_1" style="color:#0BA194;">{{lottype[active_lt].playtypes[active_pt].mashu.split(',')[active_mashu]}}</span> 
+                      <img src="~@/assets/home/down_blue.png" alt="1" style="width:.25rem;margin-left:.1rem;">
+                    </div>
                   </div>
+                  <ul v-show="show_mashu" style="position:absolute;top:.7rem;left:.1rem;border:1px solid #0BA194;min-width:85%;background:#fff;box-shadow:0 0 .12rem #0BA194">
+                    <li @click="change_ms(j)" class="check_li" v-for="(m,j) in lottype[active_lt].playtypes[active_pt].mashu.split(',')" :class="{active:active_mashu==j}" :key="j">{{m}}</li>
+                  </ul>
                 </div>
+                
 
-                <span>计划期数</span>
-                <div style="border:1px solid #0BA194;padding:.1rem;margin:0 0 0 .1rem;border-radius:.05rem;min-width:.9rem;">
-                  <div class="flex text_center">
-                    <span class="flex_grow_1" style="color:#0BA194;">4</span> 
-                    <img src="~@/assets/home/down_blue.png" alt="1" style="width:.25rem;margin-left:.1rem;">
+                <span v-if="lottype && lottype.length>0 && lottype[active_lt].playtypes && lottype[active_lt].playtypes.length>0 && lottype[active_lt].playtypes[active_pt].qishu">计划期数</span>
+                <div style="position:relative;" v-if="lottype && lottype.length>0 && lottype[active_lt].playtypes && lottype[active_lt].playtypes.length>0 && lottype[active_lt].playtypes[active_pt].qishu">
+                  <div style="border:1px solid #0BA194;padding:.1rem;margin:0 0 0 .1rem;border-radius:.05rem;min-width:.9rem;" @click="click_qs">
+                    <div class="flex text_center">
+                      <span class="flex_grow_1" style="color:#0BA194;">{{lottype[active_lt].playtypes[active_pt].qishu.split(',')[active_qishu]}}</span> 
+                      <img src="~@/assets/home/down_blue.png" alt="1" style="width:.25rem;margin-left:.1rem;">
+                    </div>
                   </div>
+                  <ul v-show="show_qishu" style="position:absolute;top:.7rem;left:.1rem;border:1px solid #0BA194;min-width:85%;background:#fff;box-shadow:0 0 .12rem #0BA194">
+                    <li @click="change_qs(j)" class="check_li" v-for="(m,j) in lottype[active_lt].playtypes[active_pt].qishu.split(',')" :class="{active:active_qishu==j}" :key="j">{{m}}</li>
+                  </ul>
+
                 </div>
+                
               </div>
 
               <div class="flex text_center" style="">
-                <div class=" flex_grow_1" style="padding:.3rem .1rem .3rem .4rem;">
+                <div class=" flex_grow_1" style="padding:.3rem .1rem .3rem .4rem;" @click="show_change_plan = true">
                   <img src="~@/assets/home/refresh.png" alt="1" style="width:.45rem;">
                   <span>换一批计划</span>
                 </div>
-                <div class=" flex_grow_1" style="padding:.3rem .1rem;border-left:1px solid #EEEEEE;border-right:1px solid #EEEEEE;">
+                <div class=" flex_grow_1" style="padding:.3rem .1rem;border-left:1px solid #EEEEEE;border-right:1px solid #EEEEEE;" @click="show_shoucang = true">
                   <img src="~@/assets/home/like_o.png" alt="1" style="width:.45rem;">
                   <span>收藏当前计划</span>
                 </div>
-                <div class=" flex_grow_1 text_right" style="padding:.3rem .4rem .3rem .1rem;" @click="jumpTo('/home/hisKj?lottype=801')">
+                <div class=" flex_grow_1 text_right" style="padding:.3rem .4rem .3rem .1rem;" @click="goHisKj">
                   <img src="~@/assets/home/history.png" alt="1" style="width:.45rem;">
                   <span>历史开奖</span>
                 </div>
@@ -131,41 +153,7 @@
             </div>
           </div>
 
-          <div class="card_item_box">
-            <div class="item_title">温馨提示</div>
-            <div style="padding:.38rem 0;line-height:1.6;">
-              想回看当前计划，请收藏在切换。切换后无法找回，是否切换当前计划?
-              <div>
-                计划条数： <span style="color:#108EE9;font-size:0.32rem;"> 初始10条 - 20条</span> 
-              </div>
-            </div>
-            <van-row gutter="20" style="">
-              <van-col span="12">
-                <van-button size="large" class="cancel_btn">取消</van-button>
-              </van-col>
-              <van-col span="12">
-                <van-button size="large" class="sure_btn">切换</van-button>
-              </van-col>
-            </van-row>
-          </div>
-
-          <div class="card_item_box">
-            <div class="item_title">收藏计划</div>
-            <div style="padding:.38rem 0;line-height:1.6;">
-              <!-- 想回看当前计划，请收藏在切换。切换后无法找回，是否切换当前计划? -->
-              <div>
-                计划名称： <span style="color:#108EE9;font-size:0.32rem;"> 幸运飞艇冠军定码4码4期020812：22：22 </span> 
-              </div>
-            </div>
-            <van-row gutter="20" style="">
-              <van-col span="12">
-                <van-button size="large" class="cancel_btn">取消</van-button>
-              </van-col>
-              <van-col span="12">
-                <van-button size="large" class="sure_btn">收藏</van-button>
-              </van-col>
-            </van-row>
-          </div>
+          
 
           <div class="card_item_box">
             <div class="item_title">积分查看提示</div>
@@ -182,23 +170,6 @@
             </van-row>
           </div>
 
-          <div class="card_item_box">
-            <div class="item_title">复制方案</div>
-            <div style="padding:.38rem 0;line-height:1.6;">
-              <!-- 想回看当前计划，请收藏在切换。切换后无法找回，是否切换当前计划? -->
-              <div>
-                最近条数： <span style="color:#108EE9;font-size:0.32rem;"> 20 </span> 
-              </div>
-            </div>
-            <van-row gutter="20" style="">
-              <van-col span="12">
-                <van-button size="large" class="cancel_btn">取消</van-button>
-              </van-col>
-              <van-col span="12">
-                <van-button size="large" class="sure_btn">复制</van-button>
-              </van-col>
-            </van-row>
-          </div>
           
         </div>
 
@@ -209,11 +180,34 @@
             class="dialog_content_input"
             :before-close="beforeClose"
             >
-            <van-field
+            <van-field 
                 v-model.trim.number="count_input"
                 clearable
                 label="最近条数："
             />
+        </van-dialog>
+
+        <van-dialog  v-if="planInfo && planInfo.user_plan_name"
+            v-model="show_shoucang"
+            title="收藏计划" 
+            show-cancel-button
+            class="dialog_content_input"
+            :before-close="beforeClose_shoucang"
+            >
+            <div style="padding:.4rem .2rem;">计划名称：</div>
+            <div style="padding-bottom:.4rem;color:#108EE9;font-size:0.32rem;">
+              {{user_plan_name}}
+            </div>
+        </van-dialog>
+
+        <van-dialog  v-if="planInfo"
+            v-model="show_change_plan"
+            title="温馨提示" 
+            show-cancel-button
+            class="dialog_content_input"
+            :before-close="beforeClose_change_plan"
+            >
+            <div style="padding:.4rem .2rem;line-height:1.6;">想回看当前计划，请收藏在切换。切换后无法找回，是否切换当前计划?</div>
         </van-dialog>
 
 
@@ -243,8 +237,8 @@
 
 <script>
 import { Dialog } from 'vant'
-import { gethome, getfanganrank } from '@/api/home'
-import { getplan } from '@/api'
+import { gethome } from '@/api/home'
+import { getplan, like } from '@/api'
 import { getdTime, getHMS } from '@/utils'
 import Vue from 'vue'
 import VueClipboard from 'vue-clipboard2'
@@ -272,9 +266,19 @@ export default {
       m: '',
       s: '',
       lottype:[],
-      active_fa:0,
       active_lt:0,
       active_pt:0,
+      mashu:0,
+      qishu:0,
+      show_pt: false,
+      show_mashu: false,
+      show_qishu: false,
+      active_mashu:0,
+      active_qishu:0,
+      user_plan_id:0,
+      user_plan_name:'',
+      show_shoucang:false,
+      show_change_plan: false,
 
 
       list:[
@@ -307,6 +311,36 @@ export default {
     }
   },
   methods: {
+    beforeClose_change_plan(action,done){
+      if(action == 'confirm'){
+        this.user_plan_id = 0;
+        this.lastid = 0;
+        this.getplans();
+      }
+      done();
+    },
+    goHisKj(){
+      this.$router.push({
+        path:'/home/hisKj',
+        query:{
+          lottype: this.lottype[this.active_lt].lottype,
+          lotname: this.lottype[this.active_lt].lotname
+        }
+      })
+    },
+    beforeClose_shoucang(action,done){
+      if(action == 'confirm'){
+          this.like();
+      }
+      done();
+    },
+    async like () {
+      const { data }    = await like({
+            sid: localStorage.getItem('sid'),
+            uid: localStorage.getItem('uid'),
+            user_plan_id: this.user_plan_id
+        });
+    },
     beforeClose(action,done){
         if(action == 'confirm'){
             if(!this.count_input){
@@ -352,6 +386,9 @@ export default {
         })
     },
     show_ul(){
+      this.show_mashu = false;
+      this.show_qishu = false;
+      this.show_pt = false;
       this.show_lt = !this.show_lt;
     },
     //点击会员权限跳转开通会员页面
@@ -362,39 +399,52 @@ export default {
             this.$router.push('/home/openingMember')
         }
     },
+    click_pt(){
+        this.show_lt = false;
+        this.show_mashu = false;
+        this.show_qishu = false;
+        this.show_pt = !this.show_pt;
+    },
+    click_ms(){
+        this.show_lt = false;
+        this.show_qishu = false;
+        this.show_pt = false;
+        this.show_mashu = !this.show_mashu;
+    },
+    click_qs(){
+        this.show_lt = false;
+        this.show_mashu = false;
+        this.show_pt = false;
+        this.show_qishu = !this.show_qishu;
+    },
     change_lt(index){
       this.show_lt = false;
       this.lastid = 0
+      this.active_mashu = 0;
+      this.active_qishu = 0;
       this.active_pt = 0
-      this.active_fa = 0
       this.active_lt = index
-      this.getfanganrank().then(()=>{
-        this.getplans();
-      })
-
-    },
-    change_fa(index){
-        this.active_fa = index
-        this.lastid = 0
-        this.getplans()
+      this.getplans();
     },
     change_pt(index){
-        this.active_fa = 0
+        this.show_pt = false;
+        this.active_mashu = 0;
+        this.active_qishu = 0;
         this.active_pt = index
         this.lastid = 0
-        this.getfanganrank().then(()=>{
-          this.getplans();
-        })
+        this.getplans();
     },
-    async getfanganrank(){
-      let obj = {
-        lottype: this.lottype[this.active_lt].lottype,
-        plantype: this.lottype[this.active_lt].plantypes[this.active_pt].plantype,
-      }
-      if(localStorage.getItem('sid')){obj.sid = localStorage.getItem('sid') }
-      if(localStorage.getItem('uid')){obj.uid = localStorage.getItem('uid') }
-      const { data } = await getfanganrank(obj)
-      this.fangansList = data.list
+    change_ms(index){
+        this.show_mashu = false;
+        this.active_mashu = index;
+        this.lastid = 0
+        this.getplans();
+    },
+    change_qs(index){
+        this.show_qishu = false;
+        this.active_qishu = index;
+        this.lastid = 0
+        this.getplans();
     },
     async getplans() {
         if(this.timer){
@@ -405,20 +455,21 @@ export default {
           clearInterval(this.cur_timer)
           this.cur_timer = null
         }
-        if(this.kj_number_timer){
-            clearTimeout(this.kj_number_timer)
-            this.kj_number_timer = null;
-        }
         let obj = {
           lottype: this.lottype[this.active_lt].lottype,
-          fanganid: this.fangansList[this.active_fa].fanganid,
-          plantype: this.lottype[this.active_lt].plantypes[this.active_pt].plantype,
-          lastid: this.lastid
+          playtype: this.lottype[this.active_lt].playtypes[this.active_pt].playtype,
+          pos_type: this.lottype[this.active_lt].playtypes[this.active_pt].pos_type,
+          mashu: this.lottype[this.active_lt].playtypes[this.active_pt].mashu.split(',')[this.active_mashu],
+          qishu: this.lottype[this.active_lt].playtypes[this.active_pt].qishu.split(',')[this.active_qishu],
+          lastid: this.lastid,
+          user_plan_id: this.user_plan_id
         }
         if(localStorage.getItem('sid')){obj.sid = localStorage.getItem('sid') }
         if(localStorage.getItem('uid')){obj.uid = localStorage.getItem('uid') }
         const { data } = await getplan(obj)
-        this.planInfo = data
+        this.planInfo = data;
+        this.user_plan_id = data.user_plan_id;
+        this.user_plan_name = data.user_plan_name;
         let planInfoList = data.list
         if(this.lastid != 0 && this.time_add) {
             planInfoList = planInfoList.map(item => {
@@ -430,7 +481,7 @@ export default {
         this.time_add = true; 
         this.lastid = this.planInfo.lastid  //获取更多传当前这个lastid 默认传0
 
-        
+        this.planInfo.curtime = this.planInfo.sertime;
         this.curtime = getHMS(this.planInfo.curtime)//开始时间
         this._curtime = this.planInfo.curtime*1000//当前时间
         this.endtime = this.planInfo.endtime*1000//结束时间
@@ -447,22 +498,7 @@ export default {
             }
             this.lastid = 0;
             this.kj_number_timer = setTimeout(()=>{
-              let fanganid = this.fangansList[this.active_fa].fanganid
-              this.getfanganrank().then(()=>{
-                if(this.fangansList.length>0){
-                  for(let i=0;i<this.fangansList.length;i++){
-                    if(this.fangansList[i].fanganid == fanganid){
-                      this.active_fa = i;
-                      break;
-                    }
-                  }
-                }
-                if(this.kj_number_timer){
-                  clearTimeout(this.kj_number_timer)
-                  this.kj_number_timer = null;
-                }
-                this.getplans();
-              })
+              
             },3000);
             return;
         }else{
@@ -480,18 +516,6 @@ export default {
             if(leftTime == 0){
                 this.time_add = false;
                 this.lastid = 0
-                let fanganid = this.fangansList[this.active_fa].fanganid
-                this.getfanganrank().then(()=>{
-                  if(this.fangansList.length>0){
-                    for(let i=0;i<this.fangansList.length;i++){
-                      if(this.fangansList[i].fanganid == fanganid){
-                        this.active_fa = i;
-                        break;
-                      }
-                    }
-                  }
-                  this.getplans();
-                })
                 if(this.timer){
                   clearTimeout(this.timer)
                   this.timer = null
@@ -526,7 +550,7 @@ export default {
         var second="00"+date.getSeconds();
         second=second.substr(second.length-2);
         // let str = year+"-"+month+"-"+day+" "+" "+hour+":"+minute+":"+second
-        let str = month+"月"+day+"日"+" "+hour+":"+minute+":"+second
+        let str = hour+":"+minute+":"+second
         this.curtime = str
     },
     onRefresh() {
@@ -632,10 +656,6 @@ export default {
       localStorage['pid'] = ''
     }
     
-    if(localStorage['uid'] && localStorage['uid']!=''){
-      this.left_text = '会员中心';
-      this.left_path = '/personal/index'
-    }
     document.addEventListener("visibilitychange", () => {
         if (document.hidden) {
           
@@ -649,8 +669,18 @@ export default {
   activated(){  
     this.lastid = 0;
     this.show_lt = false;
+    this.show_mashu = false;
+    this.show_pt = false;
+    this.show_qishu = false;
+    if(localStorage['uid'] && localStorage['uid']!=''){
+      this.left_text = '会员中心';
+      this.left_path = '/personal/index'
+    }else{
+      this.left_text = '登录';
+      this.left_path = '/login/index'
+    }
     this.gethome().then(()=>{
-      
+      this.getplans();
     })
     this.isFirstEnter=false;
     this.$store.dispatch('set_isback',false)
@@ -681,6 +711,13 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+.check_li
+  border-bottom 1px solid #0BA194;
+  font-size .32rem
+  padding .2rem .1rem
+  &.active
+    background #0BA194
+    color #fff
 .card_item_box
   box-shadow:0 0 .2rem #EEEEEE;
   margin-top:.4rem;
