@@ -10,6 +10,9 @@ const getters = {
   issetkjtx:state=> state.app.issetkjtx,
   apkurl:state=> state.app.apkurl,
   homeData:state=> state.app.homeData,
+  timer:state=> state.app.timer,
+  cur_timer:state=> state.app.cur_timer,
+  kj_number_timer:state=> state.app.kj_number_timer,
 
 }
 export default getters

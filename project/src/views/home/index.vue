@@ -66,7 +66,7 @@
                       <img src="~@/assets/home/down_blue.png" alt="1" style="width:.25rem;margin-left:.1rem;">
                     </div>
                   </div>
-                  <ul v-show="show_pt" style="position:absolute;top:.7rem;left:.1rem;border:1px solid #0BA194;min-width:85%;background:#fff;box-shadow:0 0 .12rem #0BA194;max-height:5rem;overflow:auto;">
+                  <ul v-show="show_pt" style="position:absolute;top:.7rem;left:.1rem;border:1px solid #0BA194;min-width:85%;background:#fff;box-shadow:0 0 .12rem #0BA194;max-height:5rem;overflow:auto;z-index:10;">
                     <li @click="change_pt(k)" class="check_li" v-for="(p,k) in lottype[active_lt].playtypes" :class="{active:active_pt==k}" :key="k">{{p.playname}}</li>
                   </ul>
                 </div>
@@ -80,7 +80,7 @@
                       <img src="~@/assets/home/down_blue.png" alt="1" style="width:.25rem;margin-left:.1rem;">
                     </div>
                   </div>
-                  <ul v-show="show_mashu" style="position:absolute;top:.7rem;left:.1rem;border:1px solid #0BA194;min-width:85%;background:#fff;box-shadow:0 0 .12rem #0BA194">
+                  <ul v-show="show_mashu" style="position:absolute;top:.7rem;left:.1rem;border:1px solid #0BA194;min-width:85%;background:#fff;box-shadow:0 0 .12rem #0BA194;max-height:5rem;overflow:auto;z-index:10;">
                     <li @click="change_ms(j)" class="check_li" v-for="(m,j) in lottype[active_lt].playtypes[active_pt].mashu.split(',')" :class="{active:active_mashu==j}" :key="j">{{m}}</li>
                   </ul>
                 </div>
@@ -94,7 +94,7 @@
                       <img src="~@/assets/home/down_blue.png" alt="1" style="width:.25rem;margin-left:.1rem;">
                     </div>
                   </div>
-                  <ul v-show="show_qishu" style="position:absolute;top:.7rem;left:.1rem;border:1px solid #0BA194;min-width:85%;background:#fff;box-shadow:0 0 .12rem #0BA194">
+                  <ul v-show="show_qishu" style="position:absolute;top:.7rem;left:.1rem;border:1px solid #0BA194;min-width:85%;background:#fff;box-shadow:0 0 .12rem #0BA194;max-height:5rem;overflow:auto;z-index:10;">
                     <li @click="change_qs(j)" class="check_li" v-for="(m,j) in lottype[active_lt].playtypes[active_pt].qishu.split(',')" :class="{active:active_qishu==j}" :key="j">{{m}}</li>
                   </ul>
 
@@ -123,39 +123,25 @@
               <tr>
                 <th style="border-bottom:1px solid #eee;">计划期次</th>
                 <th style="border-bottom:1px solid #eee;">计划内容</th>
-                <th style="border-bottom:1px solid #eee;">追号中</th>
+                <th style="border-bottom:1px solid #eee;">计划结果</th>
               </tr>
-              <tr>
-                <td>112-114</td>
-                <td style="color:#E7541E">使用积分查看</td>
-                <td>追号中</td>
-              </tr>
-              <tr>
-                <td>123</td>
-                <td>1 2 3 4 5 </td>
-                <td>112期中</td>
-              </tr>
-              <tr>
-                <td>123</td>
-                <td>1 2 3 4 5 </td>
-                <td>123</td>
-              </tr>
-              <tr>
-                <td>123</td>
-                <td>123</td>
-                <td>112期中</td>
+              <tr v-for="(p,index) in planInfoList" :key="index">
+                <td>{{p.issue}}</td>
+                <td v-if="p.content == '会员续费查看'" style="color:#E7541E" @click="jumpTo('/personal/freeUse')">{{p.content}}</td>
+                <td v-else>{{p.content}}</td>
+                <td>{{p.result}}</td>
               </tr>
             </table>
 
-            <div style="font-size:.37rem;color:#138EE6;text-align:center;margin:.28rem 0 .48rem;">获取更多</div>
-            <div class="text_center">
+            <div v-if="hasnextpage==1" style="font-size:.37rem;color:#138EE6;text-align:center;margin:.28rem 0 0;">获取更多</div>
+            <div class="text_center" style="padding-top:.48rem">
               <van-button size="large" style="background:#108FE9;color:#fff;width:90%;border-radius:.1rem;height:.83rem;line-height:.73rem;font-size:.37rem;" @click="show_tt = true">复制方案</van-button>
             </div>
           </div>
 
           
 
-          <div class="card_item_box">
+          <div class="card_item_box" v-if="false">
             <div class="item_title">积分查看提示</div>
             <div style="padding:.38rem 0;line-height:1.6;">
               查看计划将消耗你1积分，1积分将可以持续使用24小时。
@@ -259,9 +245,6 @@ export default {
       endtime: '',
       current_time:'',
       isCurtime: false,
-      cur_timer:null,
-      kj_number_timer:null,
-      timer: null,
       h: '',
       m: '',
       s: '',
@@ -279,6 +262,12 @@ export default {
       user_plan_name:'',
       show_shoucang:false,
       show_change_plan: false,
+      pList:[
+        {issue:'12345',content:'会员续费查看',result:'追号中'},
+        {issue:'12345',content:'会员查看',result:'追号中'},
+        {issue:'12345',content:'1 2 5 8 6 ',result:'追号中'},
+        ],
+      hasnextpage:0,
 
 
       list:[
@@ -292,7 +281,7 @@ export default {
         
       ],
       new_links:[
-        {src:require('../../assets/home/zhuanjifen.png'),title:'赚积分',link:'/personal/freeUse'},
+        {src:require('../../assets/home/zhuanjifen.png'),title:'永久免费',link:'/personal/freeUse'},
         {src:require('../../assets/home/vip.png'),title:'会员中心',link:'/personal/index'},
         {src:require('../../assets/home/gonggao.png'),title:'公告栏',link:'/home/announcement/index'},
         {src:require('../../assets/home/like.png'),title:'我的收藏',link:'/personal/like'},
@@ -447,13 +436,13 @@ export default {
         this.getplans();
     },
     async getplans() {
-        if(this.timer){
-          clearTimeout(this.timer)
-          this.timer = null
+        if(this.$store.getters.timer) {
+            clearTimeout(this.$store.getters.timer)
+            this.$store.dispatch('set_timer',null)
         }
-        if(this.cur_timer){
-          clearInterval(this.cur_timer)
-          this.cur_timer = null
+        if(this.$store.getters.cur_timer){
+            clearTimeout(this.$store.getters.cur_timer)
+            this.$store.dispatch('set_cur_timer',null)
         }
         let obj = {
           lottype: this.lottype[this.active_lt].lottype,
@@ -470,7 +459,17 @@ export default {
         this.planInfo = data;
         this.user_plan_id = data.user_plan_id;
         this.user_plan_name = data.user_plan_name;
-        let planInfoList = data.list
+        this.hasnextpage = data.hasnextpage;
+
+        localStorage.setItem('lottype',obj.lottype);
+        localStorage.setItem('playtype',obj.playtype);
+        localStorage.setItem('pos_type',obj.pos_type);
+        localStorage.setItem('mashu',obj.mashu);
+        localStorage.setItem('qishu',obj.qishu);
+        localStorage.setItem('user_plan_id',data.user_plan_id);
+        localStorage.setItem('playname',this.lottype[this.active_lt].playtypes[this.active_pt].playname);
+
+        let planInfoList = data.list;
         if(this.lastid != 0 && this.time_add) {
             planInfoList = planInfoList.map(item => {
                 this.planInfoList.push(item)
@@ -489,23 +488,25 @@ export default {
         this.isCurtime = false
         this.countTime()
         this.curTime();
-        this.cur_timer = setInterval(this.curTime,1000)
 
-        if(data.kjnum == '正在开奖...'){
-            if(this.kj_number_timer){
-              clearTimeout(this.kj_number_timer)
-              this.kj_number_timer = null;
-            }
+        if(this.$store.getters.kj_number_timer){
+            clearTimeout(this.$store.getters.kj_number_timer)
+            this.$store.dispatch('set_kj_number_timer',null)
+        }
+        if(data.prekjnum == '开奖中...'){
             this.lastid = 0;
-            this.kj_number_timer = setTimeout(()=>{
-              
-            },3000);
+            this.$store.dispatch('set_kj_number_timer',setTimeout(()=>{
+              if(this.$store.getters.timer) {
+                  clearTimeout(this.$store.getters.timer)
+                  this.$store.dispatch('set_timer',null)
+              }
+              if(this.$store.getters.cur_timer){
+                  clearTimeout(this.$store.getters.cur_timer)
+                  this.$store.dispatch('set_cur_timer',null)
+              }
+              this.getplans();
+            },3000))
             return;
-        }else{
-            if(this.kj_number_timer){
-                clearTimeout(this.kj_number_timer)
-                this.kj_number_timer = null;
-            }
         }
     },
     countTime () {
@@ -516,9 +517,10 @@ export default {
             if(leftTime == 0){
                 this.time_add = false;
                 this.lastid = 0
-                if(this.timer){
-                  clearTimeout(this.timer)
-                  this.timer = null
+                this.getplans();
+                if(this.$store.getters.timer) {
+                  clearTimeout(this.$store.getters.timer)
+                  this.$store.dispatch('set_timer',null)
                 }
                 return;
             }
@@ -529,11 +531,11 @@ export default {
             this.s = Math.floor(leftTime / 1000 % 60)>=10?Math.floor(leftTime / 1000 % 60):'0'+Math.floor(leftTime / 1000 % 60);
             this.kjdjs = this.h+':'+this.m+':'+this.s
             //递归每秒调用countTime方法，显示动态时间效果
-            this.timer = setTimeout(this.countTime, 1000);
+            this.$store.dispatch('set_timer',setTimeout(this.countTime, 1000))
         }else {
-            if(this.timer){
-              clearTimeout(this.timer)
-              this.timer = null;
+            if(this.$store.getters.timer) {
+                clearTimeout(this.$store.getters.timer)
+                this.$store.dispatch('set_timer',null)
             }
         }
     },
@@ -552,6 +554,11 @@ export default {
         // let str = year+"-"+month+"-"+day+" "+" "+hour+":"+minute+":"+second
         let str = hour+":"+minute+":"+second
         this.curtime = str
+        if(this.$store.getters.cur_timer){
+            clearTimeout(this.$store.getters.cur_timer)
+            this.$store.dispatch('set_cur_timer',null)
+        }
+        this.$store.dispatch('set_cur_timer',setTimeout(this.curTime, 1000))
     },
     onRefresh() {
       this.pull_refresh();
@@ -679,7 +686,39 @@ export default {
       this.left_text = '登录';
       this.left_path = '/login/index'
     }
+    if(localStorage.getItem('user_plan_id') && localStorage.getItem('user_plan_id')>0){
+      this.user_plan_id = localStorage.getItem('user_plan_id');
+    }
     this.gethome().then(()=>{
+
+      if(localStorage.getItem('lottype') && localStorage.getItem('lottype')>0){
+        for(var i = 0;i<this.lottype.length;i++){
+          if(localStorage.getItem('lottype') == this.lottype[i].lottype){
+            this.active_lt = i;
+          }
+        }
+      }
+      if(localStorage.getItem('playname') && localStorage.getItem('playtype')){
+        let active_item = this.lottype[this.active_lt].playtypes;
+        for(var i=0;i<active_item.length;i++){
+          if(active_item[i].playtype==localStorage.getItem('playtype') && active_item[i].playname==localStorage.getItem('playname')){
+            this.active_pt = i;
+            let arr_mashu = active_item[i].mashu.split(',')
+            for(let k=0;k<arr_mashu.length;k++){
+              if(arr_mashu[k] == localStorage.getItem('mashu')){
+                this.active_mashu = k;
+              }
+            }
+            let arr_qishu = active_item[i].qishu.split(',')
+            for(let k=0;k<arr_qishu.length;k++){
+              if(arr_qishu[k] == localStorage.getItem('qishu')){
+                this.active_qishu = k;
+              }
+            }
+          }
+        }
+      }
+      
       this.getplans();
     })
     this.isFirstEnter=false;
@@ -693,17 +732,17 @@ export default {
   beforeRouteLeave (to, from, next) {
       // 导航离开该组件的对应路由时调用
       // 可以访问组件实例 `this`
-      if(this.timer) {
-          clearTimeout(this.timer)
-          this.timer = null;
+      if(this.$store.getters.timer) {
+          clearTimeout(this.$store.getters.timer)
+          this.$store.dispatch('set_timer',null)
       }
-      if(this.cur_timer){
-          clearInterval(this.cur_timer)
-          this.cur_timer = null;
+      if(this.$store.getters.cur_timer){
+          clearTimeout(this.$store.getters.cur_timer)
+          this.$store.dispatch('set_cur_timer',null)
       }
-      if(this.kj_number_timer){
-          clearTimeout(this.kj_number_timer)
-          this.kj_number_timer = null;
+      if(this.$store.getters.kj_number_timer){
+          clearTimeout(this.$store.getters.kj_number_timer)
+          this.$store.dispatch('set_kj_number_timer',null)
       }
       next();
   }

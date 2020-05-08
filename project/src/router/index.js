@@ -31,6 +31,18 @@ const router = new Router({
 const LOGIN_PAGE_NAME = 'bind'
 const HASLOGIN_PAGE_NAME = 'home'
 router.beforeEach((to, from, next) => {
+    if(store.getters.timer) {
+        clearTimeout(store.getters.timer)
+        store.dispatch('set_timer',null)
+    }
+    if(store.getters.cur_timer){
+        clearTimeout(store.getters.cur_timer)
+        store.dispatch('set_cur_timer',null)
+    }
+    if(store.getters.kj_number_timer){
+        clearTimeout(store.getters.kj_number_timer)
+        store.dispatch('set_kj_number_timer',null)
+    }
     const { title } = to.meta
     if (title) {
         document.title = title

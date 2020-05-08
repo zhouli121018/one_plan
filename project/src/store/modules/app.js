@@ -10,7 +10,10 @@ const app = {
     kfwecha:'',
     issetkjtx: null, 
     apkurl: null, 
-    homeData:null
+    homeData:null,
+    timer:null,
+    cur_timer:null,
+    kj_number_timer:null
   },
   getters: {
     whiteList (state) {
@@ -42,6 +45,15 @@ const app = {
     SET_HOMEDATA(state,param){
       state.homeData = param;
     },
+    SET_TIMER(state,param){
+      state.timer = param;
+    },
+    SET_CUR_TIMER(state,param){
+      state.cur_timer = param;
+    },
+    SET_KJ_NUMBER_TIMER(state,param){
+      state.kj_number_timer = param;
+    },
   },
   actions: {
     set_homedata ({commit}, url) {
@@ -61,6 +73,15 @@ const app = {
     },
     set_apkurl ({commit}, param){
       commit('SET_APKURL',param)
+    },
+    set_timer ({commit}, param){
+      commit('SET_TIMER',param)
+    },
+    set_cur_timer ({commit}, param){
+      commit('SET_CUR_TIMER',param)
+    },
+    set_kj_number_timer ({commit}, param){
+      commit('SET_KJ_NUMBER_TIMER',param)
     },
   }
 }

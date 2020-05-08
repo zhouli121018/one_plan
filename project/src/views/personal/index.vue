@@ -4,7 +4,7 @@
         <div class="my_title" v-if="info != null">
             <div class="flex_grow_1">
                 <div class="flex">
-                    <img class="my_title_photo" :src="$https_img+info.img" alt="">
+                    <img class="my_title_photo" src="~@/assets/personal/defaulticon.png" alt="">
                     <div class="my_title_center">
                         <div>
                             <span style="font-weight:bold;font-size:0.37rem;color:#232323;">账号：{{info.account}}</span>
@@ -13,15 +13,15 @@
                             <!-- <p><span>金币: </span><span class="red">{{info.coin}}</span></p>
                             <p><span>粉丝: </span><span class="red">{{info.fans}}</span></p> -->
                             <!-- $isvip='1';//是否VIP 1是vip，0不是vip -->
-                            <img v-if="info.isvip == 1" class="my_title_center_img" src="~@/assets/vip.png" alt="">
-                            <img v-else class="my_title_center_img" src="~@/assets/vip-gary.png" alt="">
-                            <span v-if="info.isvip == 1" class="red">(剩余{{info.vipdate}}天)</span>
-                            <span v-else class="red">(非会员)</span>
+                            <!-- <img v-if="info.isvip == 1" class="my_title_center_img" src="~@/assets/vip.png" alt=""> -->
+                            <!-- <img v-else class="my_title_center_img" src="~@/assets/vip-gary.png" alt=""> -->
+                            <span class="red">(会员天数：{{info.viptime}})</span>
+                            <!-- <span v-else class="red">(非会员)</span> -->
                         </div>
                     </div>
                 </div>
                 <div>
-                    <div style="color:#989898;font-size:.29rem;">使用1积分可以使用24小时计划</div>
+                    <!-- <div style="color:#989898;font-size:.29rem;">使用1积分可以使用24小时计划</div> -->
                 </div>
             </div>
             
@@ -60,7 +60,7 @@
         </div>
         <!-- <div class="xian"></div>         -->
         <div style="margin:0.4rem 0.3rem;border-radius:.2rem;overflow: hidden;">
-            <van-cell title="积分明细" is-link icon="jifen" @click="jumpTo('/personal/inviteDetail')"/>
+            <van-cell title="邀请明细" is-link icon="jifen" @click="jumpTo('/personal/inviteDetail')"/>
             <van-cell title="我的推荐页" is-link icon="tj" @click="jumpTo('/personal/recommend')"/>
             <van-cell title="免费使用" is-link icon="freeuse" @click="jumpTo('/personal/freeUse')"/>
             <van-cell title="群发计划" is-link icon="qunfa" @click="jumpTo('/home/announcement/detail?noticeid=1')"/>

@@ -32,12 +32,12 @@
                 <van-button class="free_btn" @click="toJump('/personal/recommend')">我的推荐页</van-button>
             </div>
         </div>
-        <div class="xian"></div>
-        <div class="freeUse_box">
+        <!-- <div class="xian"></div> -->
+        <!-- <div class="freeUse_box">
             <div class="free_use_title"><i></i><span>免费获取15积分</span><i></i></div>
             <p style="color:#E8541E;font-size:.37rem;">添加微信：xxxxx可免费获取15积分。</p>
             
-        </div>
+        </div> -->
         <!-- <p class="contact">如有疑问请联系微信:{{$store.getters.kfwecha}}</p> -->
 
         <van-dialog 
