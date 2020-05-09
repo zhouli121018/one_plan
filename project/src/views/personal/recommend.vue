@@ -1,34 +1,32 @@
 <template>
     <div class="container" v-if="info">
-        <div class="recommend_title">
-            <div class="title_top">
-                <div @click="goBack" style="width:1rem;height:1rem;line-height:1rem">
-                    <img src="~@/assets/returnpre.png" alt="">
+        <div style="position:relative;">
+            <img src="~@/assets/tuijian.png" alt="" style="width:100%;">
+            <div style="position:absolute;top:1.5rem;left:.65rem;color:#DFE9FD;font-size:0.4rem;">{{info.leftstr}}</div>
+        </div>
+        <div style="padding:.1rem .3rem;position:relative;">
+            <img src="~@/assets/tuijian_bg.png" alt="" style="width:100%;">
+            <div style="position:absolute; top:1.3rem;left:1.2rem;right:1.8rem;text-align:center;" class="flex">
+                <div class="flex_grow_1">
+                    <div  style="color:#DFE9FD;font-size:.37rem;">x码x期任你选</div>
+                    <div style="font-size:0.29rem;color:#DFE9FD;padding:.2rem 0;">「一个计划」打遍天下无敌手</div>
+                    <van-button style="width:3.2rem;background:#DFE9FD;color:#000000;font-size:0.29rem;border-radius:.02rem;height:.6rem;line-height:.4rem;">扫码免费领</van-button>
                 </div>
-                <p>我的推荐页</p>
-                <span></span>
-            </div>
-            <div class="title_center">
-                <img src="~@/assets/mfsy.png" alt="">
-                <div class="flex_grow_1" style="padding-left:0.2rem;letter-spacing: 0.1rem;">
-                    <p style="font-weight:bold;">一个计划</p>
-                    <p style="font-weight:bold;">方案计划</p>
-                </div>
-                <div style="font-weight:bold;letter-spacing: 0.1rem;">快速上岸</div>
+                <img :src="$https+info.barcode" alt="" style="width:1.92rem;height:1.92rem;">
             </div>
         </div>
-        <div class="recommend_content">
-            <p class="content_weight">邀请码: {{info.invitecode}}</p>
-            <img :src="$https+info.barcode" alt="">
-            <div class="content_font fonts">
-                {{info.invitedesc}}
+        <div style="padding:.4rem .8rem">
+            <div  class="bg_alpha">
+            <!-- <img src="~@/assets/tuijian_alpha.png" alt=""> -->
+                <div>{{info.title_list}}</div>
+                <div v-for="(l,index) in info.list" :key="index">{{l}}</div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { gettuijiancode } from '@/api/home'
+import { gettuijiancode, getsharedata } from '@/api/home'
 export default {
     data() {
         return {
@@ -52,84 +50,34 @@ export default {
             if(data.errorcode == 0) {
                 this.info = data
             }
+        },
+        async getsharedata() {
+            const { data } = await getsharedata({
+                sid: localStorage.getItem('sid'),
+                uid: localStorage.getItem('uid')
+            })
+            if(data.errorcode == 0) {
+                this.info = data
+            }
         }
     },
     created() {
-        this.gettuijiancode()
+        this.getsharedata()
     }
 }
 </script>
 
 <style lang="stylus" scoped>
-.content_font
-    color #7D7D7D
-    padding 0 .1rem
-    padding-top .3rem
-    text-align left 
-    line-height .6rem
-    text-align justify
-.fonts
-    margin-top 1.6rem
-    font-size 0.5rem
-.recommend_content
-    width 90%
-    margin -.6rem auto 0 auto 
-    padding .4rem .2rem 1rem
-    box-sizing border-box
-    background #ffffff
-    box-shadow 0 0 0.2rem #ddd
-    border-radius .25rem
-    min-height 5rem
-    text-align center
-    .content_weight
-        font-size .55rem
-        padding .4rem 0
-        color #232323
-    img 
-        width 5rem
-        height 5rem
-.title_center
-    width 100%
-    display flex
-    justify-content space-between
-    align-items center
-    padding .2rem .3rem
-    box-sizing border-box
-    >div
-        font-size 0.6rem
-        color #ffffff
-    >div>p 
-        font-size 0.52rem
-        color #ffffff
-    p:last-child
-        padding-top .2rem
-    img 
-        width 2.5rem
-        height 2.5rem
-        border-radius 50%
-.recommend_title
-    width 100%
-    height 4.92rem
-    background url('../../assets/recommend_page.png') no-repeat
-    background-size cover
-.title_top
-    width 100%
-    display flex
-    align-items center
-    color #fff
-    height 1.2rem
-    line-height 1.2rem
-    padding 0 .3rem
-    box-sizing border-box
-    p
-        width 82%
-        text-align center
-        font-size 16px
-    img 
-        width .25rem
-        height .37rem
-        z-index 99999
 .container
     padding-top 0!important
+    background #5385F2
+.bg_alpha
+    background url(../../assets/tj_alpha.png)
+    border-radius .2rem
+    padding .5rem .2rem
+    line-height 1.6
+    text-align center
+    color #DFE9FD
+    font-size .32rem
 </style>
 

@@ -163,3 +163,15 @@ export function getkjhis (data) {
   })
 }
 
+//8、2获取推荐分享界面数据 getsharedata.php 
+export function getsharedata (data) {
+  return request({
+    url: '/getsharedata.php ',
+    method: 'post',
+    data:{
+      ...data
+    }
+  })
+}
+
+
