@@ -45,13 +45,13 @@ export default {
 .normal_style
     color #ffffff
     border-radius 50%
-    width .6rem
-    height .6rem
+    width .65rem
+    height .65rem
     display inline-block
-    line-height .6rem
+    line-height .62rem
     text-align center
-    margin-right .05rem
-    font-size .37rem
+    margin-right .08rem
+    font-size .39rem
 
 .color_0
     background #EC808D

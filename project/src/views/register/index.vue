@@ -14,7 +14,7 @@
         <div class="van_box">
             <van-field label="邀请码" maxlength="11" type="number" :disabled="has_pid" class="van_field_code" clearable v-model="pid" :placeholder="regpiddes" />
         </div>
-        <van-button style="background:#FC7953;color:#fff" @click="regist">注册</van-button>
+        <van-button style="background:#108FE9;color:#fff;border-radius:.1rem;" @click="regist">注册</van-button>
     </div>
 </template>
 

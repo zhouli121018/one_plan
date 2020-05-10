@@ -2,15 +2,18 @@
     <div class="container" v-if="info">
         <div style="position:relative;">
             <img src="~@/assets/tuijian.png" alt="" style="width:100%;">
-            <div style="position:absolute;top:1.5rem;left:.65rem;color:#DFE9FD;font-size:0.4rem;">{{info.leftstr}}</div>
+            <div style="position:absolute;top:.3rem;left:.3rem;padding:.15rem;" @click="goBack">
+                <img src="~@/assets/returnpre.png" alt="" style="width:.26rem;">
+            </div>
+            <div style="position:absolute;top:1.5rem;left:.65rem;color:#DFE9FD;font-size:0.4rem;line-height:1.4;" v-html="info.leftstr"></div>
         </div>
         <div style="padding:.1rem .3rem;position:relative;">
             <img src="~@/assets/tuijian_bg.png" alt="" style="width:100%;">
             <div style="position:absolute; top:1.3rem;left:1.2rem;right:1.8rem;text-align:center;" class="flex">
                 <div class="flex_grow_1">
-                    <div  style="color:#DFE9FD;font-size:.37rem;">x码x期任你选</div>
-                    <div style="font-size:0.29rem;color:#DFE9FD;padding:.2rem 0;">「一个计划」打遍天下无敌手</div>
-                    <van-button style="width:3.2rem;background:#DFE9FD;color:#000000;font-size:0.29rem;border-radius:.02rem;height:.6rem;line-height:.4rem;">扫码免费领</van-button>
+                    <div  style="color:#DFE9FD;font-size:.39rem;">X码X期任你选</div>
+                    <div style="font-size:0.35rem;color:#DFE9FD;padding:.2rem 0;">「一个计划」打遍天下无敌手</div>
+                    <van-button style="width:3.2rem;background:#DFE9FD;color:#000000;font-size:0.35rem;border-radius:.02rem;height:.6rem;line-height:.4rem;">扫码免费领</van-button>
                 </div>
                 <img :src="$https+info.barcode" alt="" style="width:1.92rem;height:1.92rem;">
             </div>

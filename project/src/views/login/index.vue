@@ -9,7 +9,7 @@
             <!-- <CutDown @click="codeVerify" :disabled="disabled" :moble="mobile"></CutDown> -->
         </div>
         <router-link tag="div" to="/login/verification" class="van_box_right">验证码登录</router-link>
-        <van-button  style="background:#FC7953;color:#fff"  @click="loginbypass">登录</van-button>
+        <van-button  style="background:#108FE9;color:#fff;border-radius:.1rem;"  @click="loginbypass">登录</van-button>
         <router-link tag="div" to="/register/index" class="van_box_right">注册</router-link>
     </div>
 </template>

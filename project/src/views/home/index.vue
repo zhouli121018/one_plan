@@ -43,16 +43,16 @@
           <div class="blue_bg" style="box-shadow:0 0 .2rem #EEEEEE;">
             <div class="flex" style="color:#606266;">
               <div>{{lottype[active_lt].lotname}}</div> 
-              <div class="flex_grow_1 text_right" style="font-size:.32rem">会员天数:{{planInfo.vipdays}} </div>
+              <div class="flex_grow_1 text_right" >会员天数:{{planInfo.vipdays}} </div>
             </div>
-            <div class="flex" style="color:#333333;padding:.4rem 0 .3rem;">
-              <div class="flex_grow_1">距{{planInfo.endissue}}期开奖：<span style="color:#E8541E;">{{kjdjs}}</span></div>
+            <div class="flex" style="color:#333333;padding:.4rem 0 .3rem;white-space:nowrap;">
+              <div class="flex_grow_1">距{{planInfo.endissue}}期开奖:<span style="color:#E8541E;">{{kjdjs}}</span></div>
               <span>|</span>
-              <div class="flex_grow_1 text_right">当前时间：{{curtime}}</div>
+              <div class="flex_grow_1 text_right">当前时间:{{curtime}}</div>
             </div>
             <div class="" style="color:#32373A;white-space:nowrap;">
               
-              <div class="">{{planInfo.preissue}}期开奖号码：{{planInfo.prekjnum}}</div>
+              <div class="">{{planInfo.preissue}}期开奖：{{planInfo.prekjnum}}</div>
             </div>
           </div>
 
@@ -101,13 +101,13 @@
                 </div>
                 
               </div>
-
+              <div style="padding:.2rem .4rem;color:#E8541E;">{{planInfo.hitrate}}</div>
               <div class="flex text_center" style="">
-                <div class=" flex_grow_1" style="padding:.3rem .1rem .3rem .4rem;" @click="show_change_plan = true">
+                <div class=" flex_grow_1" style="padding:.3rem .1rem .3rem .4rem;" @click="click_check_plan">
                   <img src="~@/assets/home/refresh.png" alt="1" style="width:.45rem;">
                   <span>换一批计划</span>
                 </div>
-                <div class=" flex_grow_1" style="padding:.3rem .1rem;border-left:1px solid #EEEEEE;border-right:1px solid #EEEEEE;" @click="show_shoucang = true">
+                <div class=" flex_grow_1" style="padding:.3rem .1rem;border-left:1px solid #EEEEEE;border-right:1px solid #EEEEEE;" @click="click_shoucang">
                   <img src="~@/assets/home/like_o.png" alt="1" style="width:.45rem;">
                   <span>收藏当前计划</span>
                 </div>
@@ -134,7 +134,7 @@
             </table>
 
             <div v-if="hasnextpage==1" style="font-size:.37rem;color:#138EE6;text-align:center;margin:.28rem 0 0;">获取更多</div>
-            <div class="text_center" style="padding-top:.48rem">
+            <div v-if="planInfoList && planInfoList.length>0" class="text_center" style="padding-top:.48rem">
               <van-button size="large" style="background:#108FE9;color:#fff;width:90%;border-radius:.1rem;height:.83rem;line-height:.73rem;font-size:.37rem;" @click="show_tt = true">复制方案</van-button>
             </div>
           </div>
@@ -193,7 +193,27 @@
             class="dialog_content_input"
             :before-close="beforeClose_change_plan"
             >
-            <div style="padding:.4rem .2rem;line-height:1.6;">想回看当前计划，请收藏在切换。切换后无法找回，是否切换当前计划?</div>
+            <div style="padding:.4rem .2rem;line-height:1.6;">如果想回看当前计划，请收藏再切换。切换后无法找回，是否切换当前计划?</div>
+        </van-dialog>
+
+        <van-dialog  
+            v-model="show_zhuce"
+            title="登录提示" 
+            show-cancel-button
+            class="dialog_content_input"
+            :before-close="beforeClose_go_login"
+            >
+            <div style="padding:.4rem .2rem;line-height:1.6;">您还未登录，请登录后再查看计划</div>
+        </van-dialog>
+
+        <van-dialog  
+            v-model="show_go_free"
+            title="温馨提示" 
+            show-cancel-button
+            class="dialog_content_input"
+            :before-close="beforeClose_go_free"
+            >
+            <div style="padding:.4rem .2rem;line-height:1.6;">会员已过期，请免费获取会员天数。</div>
         </van-dialog>
 
 
@@ -203,7 +223,7 @@
 
     </div>
 
-    <div class="container" v-if="is_ios" style="background:#F5F5F5;padding-top:0.4rem !important;position:absolute;top:0;z-index:1001;padding-bottom:2rem;">
+    <div class="container" v-if="is_ios" style="background:#F5F5F5;padding-top:0.4rem !important;position:absolute;top:0;z-index:10001;padding-bottom:2rem;">
         <!-- <title-bar title_name="添加到主屏幕" /> -->
         <div style="background:#EFEFEF;padding:0.2rem 0.15rem;margin:0 0.3rem 0.2rem;">
             <div style="text-align:center;font-size:0.5rem;color:#DB3030;font-weight:bold;padding:0.2rem 0;">温馨提示</div>
@@ -268,6 +288,8 @@ export default {
         {issue:'12345',content:'1 2 5 8 6 ',result:'追号中'},
         ],
       hasnextpage:0,
+      show_zhuce:false,
+      show_go_free:false,
 
 
       list:[
@@ -300,6 +322,36 @@ export default {
     }
   },
   methods: {
+    click_check_plan(){
+      if(!localStorage.getItem('uid') || !localStorage.getItem('sid')){
+        this.show_zhuce = true
+      }else{
+        this.show_change_plan = true;
+      }
+    },
+    click_shoucang(){
+      if(!localStorage.getItem('uid') || !localStorage.getItem('sid')){
+        this.show_zhuce = true;
+      }else{
+        if(this.planInfo &&this.planInfo.length==0){
+          this.$toast('当前没计划收藏')
+        }else{
+          this.show_shoucang = true;
+        }
+      }
+    },
+    beforeClose_go_free(action,done){
+      if(action == 'confirm'){
+        this.$router.push('/personal/freeUse');
+      }
+      done();
+    },
+    beforeClose_go_login(action,done){
+      if(action == 'confirm'){
+        this.$router.push('/login/index');
+      }
+      done();
+    },
     beforeClose_change_plan(action,done){
       if(action == 'confirm'){
         this.user_plan_id = 0;
@@ -354,7 +406,7 @@ export default {
         }
         for(let i = 0;i<len;i++){
             let item = text[i]
-            arr.push(`${item.issue}  ${item.content}  ${item.hitnum}  `)
+            arr.push(`${item.issue}  ${item.content}  ${item.result}  `)
         }
         arr = `--------------------------- \n ${arr.join('\n')} \n--------------------------- ` 
         this.$copyText(arr).then( (e) => {
@@ -456,10 +508,12 @@ export default {
         if(localStorage.getItem('sid')){obj.sid = localStorage.getItem('sid') }
         if(localStorage.getItem('uid')){obj.uid = localStorage.getItem('uid') }
         const { data } = await getplan(obj)
+        
         this.planInfo = data;
         this.user_plan_id = data.user_plan_id;
         this.user_plan_name = data.user_plan_name;
         this.hasnextpage = data.hasnextpage;
+        
 
         localStorage.setItem('lottype',obj.lottype);
         localStorage.setItem('playtype',obj.playtype);
@@ -468,6 +522,8 @@ export default {
         localStorage.setItem('qishu',obj.qishu);
         localStorage.setItem('user_plan_id',data.user_plan_id);
         localStorage.setItem('playname',this.lottype[this.active_lt].playtypes[this.active_pt].playname);
+
+        
 
         let planInfoList = data.list;
         if(this.lastid != 0 && this.time_add) {
@@ -486,13 +542,24 @@ export default {
         this.endtime = this.planInfo.endtime*1000//结束时间
         this.current_time = this.planInfo.curtime*1000//当前时间
         this.isCurtime = false
-        this.countTime()
         this.curTime();
+        if(data.errorcode == 101){
+          this.show_zhuce = true;
+          return;
+        }else if(data.errorcode == 102){
+          this.show_go_free = true;
+          return;
+        }else{
+          this.show_zhuce = false;
+          this.show_go_free = false
+        }
+        this.countTime()
 
         if(this.$store.getters.kj_number_timer){
             clearTimeout(this.$store.getters.kj_number_timer)
             this.$store.dispatch('set_kj_number_timer',null)
         }
+        
         if(data.prekjnum == '开奖中...'){
             this.lastid = 0;
             this.$store.dispatch('set_kj_number_timer',setTimeout(()=>{
@@ -508,6 +575,8 @@ export default {
             },3000))
             return;
         }
+
+        
     },
     countTime () {
         //时间差
@@ -654,13 +723,9 @@ export default {
 
     if(this.$route.query.cid){
       localStorage['cid'] = this.$route.query.cid;
-    }else{
-      localStorage['cid'] = ''
     }
     if(this.$route.query.pid){
       localStorage['pid'] = this.$route.query.pid;
-    }else{
-      localStorage['pid'] = ''
     }
     
     document.addEventListener("visibilitychange", () => {

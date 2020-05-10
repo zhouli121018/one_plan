@@ -1,9 +1,9 @@
 <template>
     <div class="container">
-        <title-bar :title_name="title_name" />
+        <title-bar :title_name="title" />
         <div>
-            <h3 style="font-size:18px;text-align:center;padding:16px 0">{{title}}</h3>
-            <div style="text-indent:2em;line-height:22px;padding:0 10px;font-size:14px;" v-html="content">
+            <!-- <h3 style="font-size:18px;text-align:center;padding:16px 0">{{title}}</h3> -->
+            <div style="line-height:1.5;padding:.4rem .3rem;font-size:.38rem;" v-html="content">
                 
             </div>
         </div>

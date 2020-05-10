@@ -1,34 +1,41 @@
 <template>
     <div class="container">
         <title-bar title_name="会员中心" />
-        <div class="my_title" v-if="info != null">
-            <div class="flex_grow_1">
-                <div class="flex">
-                    <img class="my_title_photo" src="~@/assets/personal/defaulticon.png" alt="">
-                    <div class="my_title_center">
-                        <div>
-                            <span style="font-weight:bold;font-size:0.37rem;color:#232323;">账号：{{info.account}}</span>
-                        </div>
-                        <div class="goldcoins_fans">
-                            <!-- <p><span>金币: </span><span class="red">{{info.coin}}</span></p>
-                            <p><span>粉丝: </span><span class="red">{{info.fans}}</span></p> -->
-                            <!-- $isvip='1';//是否VIP 1是vip，0不是vip -->
-                            <!-- <img v-if="info.isvip == 1" class="my_title_center_img" src="~@/assets/vip.png" alt=""> -->
-                            <!-- <img v-else class="my_title_center_img" src="~@/assets/vip-gary.png" alt=""> -->
-                            <span class="red">(会员天数：{{info.viptime}})</span>
-                            <!-- <span v-else class="red">(非会员)</span> -->
+        <div class="" style="    margin: 0.4rem 0.3rem;
+    border-radius: 0.2rem;background: #fff;">
+            <div class="my_title" v-if="info != null">
+                <div class="flex_grow_1">
+                    <div class="flex">
+                        <img class="my_title_photo" src="~@/assets/personal/defaulticon.png" alt="">
+                        <div class="my_title_center">
+                            <div>
+                                <span style="font-weight:bold;font-size:0.4rem;color:#232323;">账号：{{info.account}}</span>
+                            </div>
+                            <div class="goldcoins_fans">
+                                <!-- <p><span>金币: </span><span class="red">{{info.coin}}</span></p>
+                                <p><span>粉丝: </span><span class="red">{{info.fans}}</span></p> -->
+                                <!-- $isvip='1';//是否VIP 1是vip，0不是vip -->
+                                <!-- <img v-if="info.isvip == 1" class="my_title_center_img" src="~@/assets/vip.png" alt=""> -->
+                                <!-- <img v-else class="my_title_center_img" src="~@/assets/vip-gary.png" alt=""> -->
+                                <span class="red" style="font-size:.37rem;">会员天数：{{info.viptime}}</span>
+                                <!-- <span v-else class="red">(非会员)</span> -->
+                            </div>
                         </div>
                     </div>
+                    
                 </div>
-                <div>
-                    <!-- <div style="color:#989898;font-size:.29rem;">使用1积分可以使用24小时计划</div> -->
-                </div>
+
+                
+                <!-- <van-button v-if="info.isvip == 0" class="orange_btn" round @click="jumpTo('/home/openingMember')" style="white-space:nowrap;">开通会员</van-button> -->
+                <van-button class="orange_btn" round @click="jumpTo('/personal/freeUse')" style="white-space:nowrap;">免费获会员天数</van-button>
+                
             </div>
-            
-            <!-- <van-button v-if="info.isvip == 0" class="orange_btn" round @click="jumpTo('/home/openingMember')" style="white-space:nowrap;">开通会员</van-button> -->
-            <van-button class="orange_btn" round @click="jumpTo('/personal/freeUse')" style="white-space:nowrap;">免费获取会员天数</van-button>
-            
+            <div>
+                <div style="color:#989898;font-size:.29rem;padding:0 .35rem .3rem">{{info.vipdes}}</div>
+            </div>
         </div>
+        
+        
 
         <div class="my_title_box" v-if="false">
             <div class="my_title flex" style="border:none;width:47.5%" v-if="info">
@@ -70,7 +77,7 @@
 
 
         <div class="text_center">
-            <van-button @click="logout" size="large"  style="border:0;font-size:.4rem;color:#232323;">退出账号</van-button>
+            <van-button @click="logout" size="large"  style="border:0;font-size:.4rem;color:#232323;">退出帐号</van-button>
         </div>
 
         <van-dialog 
@@ -278,14 +285,14 @@ export default {
 
 .my_title
     // width: 100%
-    padding .4rem .35rem 
+    padding .4rem .35rem .2rem
     box-sizing border-box 
     display flex
     align-items center
-    border-bottom 1px solid #f0f0f0
-    background #fff
+    // border-bottom 1px solid #f0f0f0
+    // background #fff
     // margin-top:-.1rem
-    margin .4rem .3rem
+    // margin .4rem .3rem
     border-radius .2rem
     .my_title_center
         span 

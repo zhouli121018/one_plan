@@ -2,7 +2,7 @@
     <div class="container" v-if="info">
         <title-bar title_name="赚会员天数" />
         <div class="freeUse_box">
-            <div class="free_use_title"><i></i><span>免费赚积分说明</span><i></i></div>
+            <div class="free_use_title"><i></i><span>免费赚会员天数说明</span><i></i></div>
             <p v-html="info.freeshuoming" style="font-size:0.36rem;padding:0.1rem 0;"></p>
             <!-- <div class="free_use_coupon" style="font-size:0.36rem;padding-top:0.1rem;"><i></i> 邀请人数</div> -->
             <div class="free_use_coupon">
@@ -10,7 +10,7 @@
                 
             </div>
             <div style="text-align:center;padding-top:.3rem;">
-                <van-button class="free_btn" @click="goInviteDetail">邀请的积分明细</van-button>
+                <van-button class="free_btn" @click="goInviteDetail">邀请记录</van-button>
             </div>
             <p v-html="info.vipticketdes" style="color:#7B7B7B;font-size:0.3rem;"></p>
         </div>
@@ -18,7 +18,7 @@
         <div class="xian"></div>
 
         <div class="freeUse_box">
-            <div class="free_use_title"><i></i><span>专属你的分享链接</span><i></i></div>
+            <div class="free_use_title"><i></i><span>你的专属分享链接</span><i></i></div>
             <p>{{info.sharecontent}}</p>
             <div style="text-align:center;padding-top:.3rem;">
                 <van-button class="free_btn" @click="doCopy(info.sharecontent)">复制分享链接</van-button>
