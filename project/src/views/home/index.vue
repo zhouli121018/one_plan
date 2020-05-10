@@ -333,7 +333,7 @@ export default {
       if(!localStorage.getItem('uid') || !localStorage.getItem('sid')){
         this.show_zhuce = true;
       }else{
-        if(this.planInfo &&this.planInfo.length==0){
+        if(this.planInfo &&this.planInfoList.length==0){
           this.$toast('当前没计划收藏')
         }else{
           this.show_shoucang = true;
