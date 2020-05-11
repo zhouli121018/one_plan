@@ -46,19 +46,13 @@ export default {
             this.$router.go(-1)
         },
         async gettuijiancode() {
-            const { data } = await gettuijiancode({
-                sid: localStorage.getItem('sid'),
-                uid: localStorage.getItem('uid')
-            })
+            const { data } = await gettuijiancode()
             if(data.errorcode == 0) {
                 this.info = data
             }
         },
         async getsharedata() {
-            const { data } = await getsharedata({
-                sid: localStorage.getItem('sid'),
-                uid: localStorage.getItem('uid')
-            })
+            const { data } = await getsharedata()
             if(data.errorcode == 0) {
                 this.info = data
             }

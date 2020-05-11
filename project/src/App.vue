@@ -1,5 +1,5 @@
 <template>
-  <div id="app" @click.once="test">
+  <div id="app">
     <a :href="apkurl" download v-show="false" id="download_btn">1</a>
     <router-view v-if="!is_qqorwx"/>
     <div class="container" v-if="is_qqorwx" style="padding-top:0 !important;">
@@ -8,109 +8,17 @@
     <div class='full_sc' v-show="loading">
       <rise-loader class="custom-class" color="#8adff4" :loading="loading" :size="15" sizeUnit="px"></rise-loader>
     </div>
-    <audio id="myaudio" preload="load" :src="dingdong" controls="controls" :loop="false" v-show="false"></audio>
-    <!-- <van-button @click="test">dingdong</van-button> -->
   </div>
 </template>
 
 <script>
 import { Dialog } from 'vant'
-import { getkjring,gethome} from '@/api/home'
+import { gethome} from '@/api/home'
 export default {
   data(){
     return {
       is_qqorwx:false,
-      endtime: '',
-      curtime: '',
-      dingdong:'http://sscby.cn/zzh/dingdong.mp3',
-      timer:null,
-      timer_arr:[],
-      curtime_arr:[],
-      last_ring_time:null,
-      getring_timer_arr:[],
-      settimeout_timer :null
     }
-  },
-  methods:{
-    countTime () {
-        //时间差
-        let leftTime = this.endtime - this.curtime;
-        console.log(leftTime > 0)
-        if (leftTime > 0) {
-          this.curtime = this.curtime +1
-        }else {
-          this.getkjring(1);
-        }
-    },
-    async getkjring(len) {
-      if(this.timer){
-        clearInterval(this.timer);
-        this.timer = null;
-      }
-      if(this.settimeout_timer){
-        clearTimeout(this.settimeout_timer)
-        this.settimeout_timer = null;
-      }
-      const { data } = await getkjring({
-          uid: localStorage.getItem('uid'),
-          sid: localStorage.getItem('sid')
-      }) 
-      if(data.errorcode == 0){
-        // this.dingdong = data.soundurl
-        this.endtime = data.endtime;
-        this.curtime = data.curtime;
-        if(data.needring){
-          this.timer = setInterval(this.countTime,1000)
-          console.log('ring')
-          this.$nextTick(()=>{
-            document.getElementById('myaudio').play();           
-          })
-        }else{
-          if(len){
-            if(this.settimeout_timer){
-              clearTimeout(this.settimeout_timer)
-              this.settimeout_timer = null;
-            }
-            this.settimeout_timer = setTimeout(()=>{this.getkjring(len)},5000);
-            
-          }else{
-            if(this.timer){
-              clearInterval(this.timer);
-              this.timer = null;
-            }
-            this.timer = setInterval(this.countTime,1000)
-          }
-        }
-      }
-    },
-    async gethome() {
-      let obj = {};
-      if(localStorage.getItem('sid')){
-        obj.sid = localStorage.getItem('sid')
-      }
-      if(localStorage.getItem('uid')){
-        obj.uid = localStorage.getItem('uid')
-      }
-      const { data } = await gethome(obj)
-      this.$store.dispatch('set_homedata',data)
-      this.$store.dispatch('set_kfwecha',data.kfwecha)
-      this.$store.dispatch('set_issetkjtx',data.issetkjtx)
-      this.$store.dispatch('set_apkurl',data.apkurl)
-      if(data.issetkjtx){
-        if(this.timer == null){
-          this.getkjring();
-        }
-      }else{
-        if(this.timer){
-          clearInterval(this.timer);
-          this.timer = null;
-        }
-      }
-    },
-    test(){
-      document.getElementById('myaudio').play()
-      document.getElementById('myaudio').pause()
-    },
   },
   created(){
     //判断是否微信或qq
@@ -137,19 +45,6 @@ export default {
       }
     }
     
-  },
-  mounted(){
-    this.$nextTick(()=>{
-      console.log(this.$route)
-      console.log(this.$route.path!='/')
-      console.log(this.$route.path.indexOf('/home/index'))
-      console.log(!this.is_qqorwx && this.$route.path.indexOf('/home/index') == -1 && this.$route.name!='loginIndex' && this.$route.name!='verification' && this.$route.name!='registerIndex')
-      if(!this.is_qqorwx && this.$route.path.indexOf('/home/index') == -1 && this.$route.name!='loginIndex' && this.$route.name!='verification' && this.$route.name!='registerIndex' ){
-        if(this.$store.getters.issetkjtx == null){
-          this.gethome();
-        }
-      }
-    })
   },
   computed: {
     loading () {

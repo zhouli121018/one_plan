@@ -43,8 +43,6 @@ export default {
     methods: {
         async getwechatcode() {
             const { data } = await getwechatcode({
-                sid: localStorage.getItem('sid'),
-                uid: localStorage.getItem('uid'),
                 money: this.money,
                 type: this.type//0购买金币，1开通会员
             })

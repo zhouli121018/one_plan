@@ -1,9 +1,8 @@
 <template>
     <div class="container">
         <title-bar title_name="会员中心" />
-        <div class="" style="    margin: 0.4rem 0.3rem;
-    border-radius: 0.2rem;background: #fff;">
-            <div class="my_title" v-if="info != null">
+        <div class="" style="margin: 0.4rem 0.3rem;border-radius: 0.2rem;background: #fff;"  v-if="info != null">
+            <div class="my_title">
                 <div class="flex_grow_1">
                     <div class="flex">
                         <img class="my_title_photo" src="~@/assets/personal/defaulticon.png" alt="">
@@ -133,7 +132,9 @@ export default {
                 message: '退出当前帐号？'
             }).then(() => {
                 // on confirm
-                localStorage.clear();
+                // localStorage.clear();
+                localStorage.removeItem('uid_one')
+                localStorage.removeItem('sid_one')
                 this.$router.push('/home/index')
             }).catch(() => {
                 // on cancel
@@ -154,8 +155,6 @@ export default {
         },
         async submittikuan() {
             const { data } = await submittikuan({
-                sid: localStorage.getItem('sid'),
-                uid: localStorage.getItem('uid'),
                 alipay:this.alipay
             })
             this.info.income_cur = data.yongjin
@@ -164,10 +163,7 @@ export default {
             this.$router.push(path);
         },
         async getaccount() {
-            const { data } = await getaccount({
-                sid: localStorage.getItem('sid'),
-                uid: localStorage.getItem('uid')
-            })
+            const { data } = await getaccount()
             this.info = data
             this.ticketnum = this.info.ticketnum
         },
@@ -189,9 +185,7 @@ export default {
         //兑换会员天数
         async submitexchangeDay() {
             const { data } = await submitduihuan({
-                vipticket: this.vipticket,
-                uid: localStorage.getItem('uid'),
-                sid: localStorage.getItem('sid')
+                vipticket: this.vipticket
             }) 
             this.ticketnum = data.ticketnum//兑换后剩余优惠券张数
             // this.$toast(data.message)

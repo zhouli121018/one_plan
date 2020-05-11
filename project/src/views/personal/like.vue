@@ -2,13 +2,13 @@
     <div class="container">
         <title-bar title_name="我的收藏" />
         <div class="message_box ellipsis_box" v-for="(l,index) in list" :key="index">
-            <van-cell :title="l.planname"  :label="l.createtime" >
+            <van-cell :title="l.planname"  :label="l.createtime" @click="go_home(l)">
                 <div slot="right-icon">
                     <div>
-                        <van-button type="danger" size="mini" style="border-radius:.1rem;" @click="del_like(l.id)">删除</van-button>
+                        <van-button size="mini" style="border-radius:.1rem;background:#108FE9;color:#fff;border-color:#108FE9;" @click.stop="del_like(l.id)">删除</van-button>
                     </div>
                     <div>
-                        <van-button type="warning" size="mini" style="border-radius:.1rem;" @click="show_newname(l.id)">改名</van-button>
+                        <van-button size="mini" style="border-radius:.1rem;background:#108FE9;color:#fff;border-color:#108FE9;" @click.stop="show_newname(l.id)">改名</van-button>
                     </div>
                 </div>
             </van-cell>
@@ -45,11 +45,17 @@ export default {
         }
     },
     methods:{
+        go_home(obj){
+            localStorage.setItem('lottype_one',obj.lottype);
+            localStorage.setItem('playtype_one',obj.playtype);
+            localStorage.setItem('pos_type_one',obj.pos_type);
+            localStorage.setItem('mashu_one',obj.mashu);
+            localStorage.setItem('qishu_one',obj.qishu);
+            localStorage.setItem('user_plan_id_one',obj.user_plan_id);
+            this.$router.push('/home/index')
+        },
         async mylike () {
-          const { data }    = await mylike({
-                sid: localStorage.getItem('sid'),
-                uid: localStorage.getItem('uid')
-            });
+          const { data }    = await mylike();
           this.list = data.list;
         },
         show_newname(id){
@@ -94,8 +100,6 @@ export default {
         },
         async dislike(){
             const { data } = await dislike({
-                sid: localStorage.getItem('sid'),
-                uid: localStorage.getItem('uid'),
                 user_plan_id: this.cur_user_plan_id
             })
             if(data.errorcode==0){
@@ -104,8 +108,6 @@ export default {
         },
         async planname_modify(){
             const { data } = await planname_modify({
-                sid: localStorage.getItem('sid'),
-                uid: localStorage.getItem('uid'),
                 user_plan_id: this.cur_user_plan_id,
                 newname: this.newname
             })

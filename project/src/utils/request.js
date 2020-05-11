@@ -27,6 +27,13 @@ service.interceptors.request.use(config => {
             let md5_data = md5('token=' + now.getTime() + '&key=lldu43d98382');
             config.data.token = now.getTime();
             config.data.data = md5_data;
+
+            if(localStorage.getItem('uid_one')){
+                config.data.uid = localStorage.getItem('uid_one');
+            }
+            if(localStorage.getItem('sid_one')){
+                config.data.sid = localStorage.getItem('sid_one');
+            }
         }
 
         // 文件流采用formdata数据类型

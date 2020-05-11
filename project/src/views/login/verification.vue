@@ -43,18 +43,17 @@ export default {
                 phone: this.mobile,
                 vcode: this.code
             };
-            if(localStorage.getItem('cid')){ //渠道号
-                obj.cid = localStorage.getItem('cid')
+            if(localStorage.getItem('cid_one')){ //渠道号
+                obj.cid = localStorage.getItem('cid_one')
             }
-            if(localStorage.getItem('pid')){ //推荐码
-                obj.pid = localStorage.getItem('pid')
+            if(localStorage.getItem('pid_one')){ //推荐码
+                obj.pid = localStorage.getItem('pid_one')
             }
             const { data }    = await loginbyvcode(obj)
             if(data.errorcode == 0) {
-                window.localStorage['uid'] = data.uid
-                window.localStorage['sid'] = data.sid
+                window.localStorage['uid_one'] = data.uid
+                window.localStorage['sid_one'] = data.sid
                 this.$router.replace('/home/index')
-                this.$root.$children[0].gethome();
             }
         },
     },
@@ -78,16 +77,6 @@ export default {
             return {
                 ok: true,msg: 'ok'
             }
-        }
-    },
-    activated(){
-        if(this.$root.$children[0].timer){
-          clearInterval(this.$root.$children[0].timer);
-          this.$root.$children[0].timer = null;
-        }
-        if(this.$root.$children[0].settimeout_timer){
-            clearTimeout(this.$root.$children[0].settimeout_timer)
-            this.$root.$children[0].settimeout_timer = null;
         }
     }
 }

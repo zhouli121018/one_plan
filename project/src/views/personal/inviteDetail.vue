@@ -51,12 +51,6 @@ export default {
     methods:{
         async getinvitelist() {
             let obj = {};
-            if(localStorage.getItem('uid')){
-                obj.uid = localStorage.getItem('uid');
-            }
-            if(localStorage.getItem('sid')){
-                obj.sid = localStorage.getItem('sid');
-            }
             const { data } = await getinvitelist(obj);
             this.list = data.list;
             this.day_sum = data.day_sum;

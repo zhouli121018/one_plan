@@ -52,7 +52,7 @@
             </div>
             <div class="" style="color:#32373A;white-space:nowrap;">
               
-              <div class="">{{planInfo.preissue}}期开奖：{{planInfo.prekjnum}}</div>
+              <div class="">{{planInfo.preissue}}期开奖:{{planInfo.prekjnum}}</div>
             </div>
           </div>
 
@@ -101,7 +101,6 @@
                 </div>
                 
               </div>
-              <div style="padding:.2rem .4rem;color:#E8541E;">{{planInfo.hitrate}}</div>
               <div class="flex text_center" style="">
                 <div class=" flex_grow_1" style="padding:.3rem .1rem .3rem .4rem;" @click="click_check_plan">
                   <img src="~@/assets/home/refresh.png" alt="1" style="width:.45rem;">
@@ -116,6 +115,7 @@
                   <span>历史开奖</span>
                 </div>
               </div>
+              <div style="padding:.2rem .4rem;color:#E8541E;border-top:1px solid #eeeeee;">{{planInfo.hitrate}}</div>
           </div>
 
           <div style="box-shadow:0 0 .2rem #EEEEEE;margin-top:.3rem;padding:.4rem 0 .7rem;font-size:.37rem; ">
@@ -133,7 +133,7 @@
               </tr>
             </table>
 
-            <div v-if="hasnextpage==1" style="font-size:.37rem;color:#138EE6;text-align:center;margin:.28rem 0 0;">获取更多</div>
+            <div v-if="hasnextpage==1" @click="getplans" style="font-size:.37rem;color:#138EE6;text-align:center;margin:.28rem 0 0;">获取更多</div>
             <div v-if="planInfoList && planInfoList.length>0" class="text_center" style="padding-top:.48rem">
               <van-button size="large" style="background:#108FE9;color:#fff;width:90%;border-radius:.1rem;height:.83rem;line-height:.73rem;font-size:.37rem;" @click="show_tt = true">复制方案</van-button>
             </div>
@@ -181,9 +181,14 @@
             :before-close="beforeClose_shoucang"
             >
             <div style="padding:.4rem .2rem;">计划名称：</div>
-            <div style="padding-bottom:.4rem;color:#108EE9;font-size:0.32rem;">
+            <!--<div style="padding-bottom:.4rem;color:#108EE9;font-size:0.32rem;">
               {{user_plan_name}}
-            </div>
+            </div> -->
+            <van-field type="textarea" autosize
+                v-model.trim="user_plan_name"
+                clearable style="border:1px solid #eeeeee;"
+                label=""
+            />
         </van-dialog>
 
         <van-dialog  v-if="planInfo"
@@ -296,10 +301,10 @@ export default {
         {src:require('../../assets/mfsy.png'),title:'免费使用',link:'/personal/freeUse',islink: false},
         // {src:require('../../assets/fajh.png'),title:'方案计划',link:'/home/aPlan',islink: false},
         {src:require('../../assets/kjtx.png'),title:'开奖提醒',link:'/home/openRemind',islink: false},
-        {src:require('../../assets/gg.png'),title:'公告',link:'/home/announcement/index',islink: localStorage.getItem('uid')?false:true},
+        {src:require('../../assets/gg.png'),title:'公告',link:'/home/announcement/index',islink: false},
         
-        {src:require('../../assets/dlzq.png'),title:'推荐赚钱',link:'/home/earnMoney',islink: localStorage.getItem('uid')?false:true},
-        {src:require('../../assets/dlzq.png'),title:'推荐赚钱',link:'/home/earnMoney',islink: localStorage.getItem('uid')?false:true},
+        {src:require('../../assets/dlzq.png'),title:'推荐赚钱',link:'/home/earnMoney',islink: false},
+        {src:require('../../assets/dlzq.png'),title:'推荐赚钱',link:'/home/earnMoney',islink: false},
         
       ],
       new_links:[
@@ -323,14 +328,14 @@ export default {
   },
   methods: {
     click_check_plan(){
-      if(!localStorage.getItem('uid') || !localStorage.getItem('sid')){
+      if(!localStorage.getItem('uid_one') || !localStorage.getItem('sid_one')){
         this.show_zhuce = true
       }else{
         this.show_change_plan = true;
       }
     },
     click_shoucang(){
-      if(!localStorage.getItem('uid') || !localStorage.getItem('sid')){
+      if(!localStorage.getItem('uid_one') || !localStorage.getItem('sid_one')){
         this.show_zhuce = true;
       }else{
         if(this.planInfo &&this.planInfoList.length==0){
@@ -371,15 +376,19 @@ export default {
     },
     beforeClose_shoucang(action,done){
       if(action == 'confirm'){
-          this.like();
+        if(!this.user_plan_name){
+            this.$toast('请输入计划名称！')
+            done(false)
+            return;
+        }
+        this.like();
       }
       done();
     },
     async like () {
       const { data }    = await like({
-            sid: localStorage.getItem('sid'),
-            uid: localStorage.getItem('uid'),
-            user_plan_id: this.user_plan_id
+            user_plan_id: this.user_plan_id,
+            planname: this.user_plan_name
         });
     },
     beforeClose(action,done){
@@ -432,14 +441,6 @@ export default {
       this.show_pt = false;
       this.show_lt = !this.show_lt;
     },
-    //点击会员权限跳转开通会员页面
-    toOpeningMember() {
-        if(!localStorage.getItem('sid') || !localStorage.getItem('uid')) {
-            this.$router.push('/login/index')
-        }else {
-            this.$router.push('/home/openingMember')
-        }
-    },
     click_pt(){
         this.show_lt = false;
         this.show_mashu = false;
@@ -460,7 +461,8 @@ export default {
     },
     change_lt(index){
       this.show_lt = false;
-      this.lastid = 0
+      this.lastid = 0;
+      this.user_plan_id = 0;
       this.active_mashu = 0;
       this.active_qishu = 0;
       this.active_pt = 0
@@ -472,19 +474,22 @@ export default {
         this.active_mashu = 0;
         this.active_qishu = 0;
         this.active_pt = index
-        this.lastid = 0
+        this.lastid = 0;
+        this.user_plan_id = 0;
         this.getplans();
     },
     change_ms(index){
         this.show_mashu = false;
         this.active_mashu = index;
-        this.lastid = 0
+        this.lastid = 0;
+        this.user_plan_id = 0;
         this.getplans();
     },
     change_qs(index){
         this.show_qishu = false;
         this.active_qishu = index;
-        this.lastid = 0
+        this.lastid = 0;
+        this.user_plan_id = 0;
         this.getplans();
     },
     async getplans() {
@@ -505,8 +510,6 @@ export default {
           lastid: this.lastid,
           user_plan_id: this.user_plan_id
         }
-        if(localStorage.getItem('sid')){obj.sid = localStorage.getItem('sid') }
-        if(localStorage.getItem('uid')){obj.uid = localStorage.getItem('uid') }
         const { data } = await getplan(obj)
         
         this.planInfo = data;
@@ -515,13 +518,13 @@ export default {
         this.hasnextpage = data.hasnextpage;
         
 
-        localStorage.setItem('lottype',obj.lottype);
-        localStorage.setItem('playtype',obj.playtype);
-        localStorage.setItem('pos_type',obj.pos_type);
-        localStorage.setItem('mashu',obj.mashu);
-        localStorage.setItem('qishu',obj.qishu);
-        localStorage.setItem('user_plan_id',data.user_plan_id);
-        localStorage.setItem('playname',this.lottype[this.active_lt].playtypes[this.active_pt].playname);
+        localStorage.setItem('lottype_one',obj.lottype);
+        localStorage.setItem('playtype_one',obj.playtype);
+        localStorage.setItem('pos_type_one',obj.pos_type);
+        localStorage.setItem('mashu_one',obj.mashu);
+        localStorage.setItem('qishu_one',obj.qishu);
+        localStorage.setItem('user_plan_id_one',data.user_plan_id);
+        localStorage.setItem('playname_one',this.lottype[this.active_lt].playtypes[this.active_pt].playname);
 
         
 
@@ -543,16 +546,6 @@ export default {
         this.current_time = this.planInfo.curtime*1000//当前时间
         this.isCurtime = false
         this.curTime();
-        if(data.errorcode == 101){
-          this.show_zhuce = true;
-          return;
-        }else if(data.errorcode == 102){
-          this.show_go_free = true;
-          return;
-        }else{
-          this.show_zhuce = false;
-          this.show_go_free = false
-        }
         this.countTime()
 
         if(this.$store.getters.kj_number_timer){
@@ -652,15 +645,6 @@ export default {
     },
     jumpTo( path, islink ){
       if(path.indexOf('/')==0){
-        if(path == '/home/aPlan' && localStorage.getItem('_lottype')){
-          this.$router.push({
-            path:path,
-            query:{
-              lottype:localStorage.getItem('_lottype')
-            }
-          })
-          return;
-        }
         this.$router.push(path)
       }else{
         this.banner_url = path;
@@ -679,30 +663,24 @@ export default {
     },
     async gethome() {
       let obj = {};
-      if(localStorage.getItem('sid')){
-        obj.sid = localStorage.getItem('sid')
-      }
-      if(localStorage.getItem('uid')){
-        obj.uid = localStorage.getItem('uid')
-      }
       const { data } = await gethome(obj)
       this.isLoading = false;
       this.advs = data.advs 
       this.$store.dispatch('set_homedata',data)
-      localStorage.setItem('aPlan_home',JSON.stringify(data))
       this.$store.dispatch('set_kfwecha',data.kfwecha)
       this.$store.dispatch('set_issetkjtx',data.issetkjtx)
       this.$store.dispatch('set_apkurl',data.apkurl)
-      // this.lottypeList = data.lottype//标题选择
       this.lottype = data.list;
-      this.notices = data.notices
-      // this.chooseName = this.lottypeList[0].lotname
+      if(data.errorcode == 101){
+        this.show_zhuce = true;
+      }else if(data.errorcode == 102){
+        this.show_go_free = true;
+      }else{
+        this.show_zhuce = false;
+        this.show_go_free = false
+      }
     },
     pull_refresh(){
-        if(this.$root.$children[0].timer){
-            clearInterval(this.$root.$children[0].timer);
-            this.$root.$children[0].timer = null;
-        }
         this.$router.go(0)
     },
   },
@@ -710,9 +688,7 @@ export default {
     this.isFirstEnter=true;
     //判断 浏览器类型
     if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
-      // if(!localStorage.getItem('isadd')){
-      //   this.is_ios = true;
-      // }
+      
       
       if(window.navigator.standalone){
         this.is_ios = false;
@@ -722,10 +698,10 @@ export default {
     }
 
     if(this.$route.query.cid){
-      localStorage['cid'] = this.$route.query.cid;
+      localStorage['cid_one'] = this.$route.query.cid;
     }
     if(this.$route.query.pid){
-      localStorage['pid'] = this.$route.query.pid;
+      localStorage['pid_one'] = this.$route.query.pid;
     }
     
     document.addEventListener("visibilitychange", () => {
@@ -739,57 +715,65 @@ export default {
     })
   },
   activated(){  
-    this.lastid = 0;
     this.show_lt = false;
     this.show_mashu = false;
     this.show_pt = false;
     this.show_qishu = false;
-    if(localStorage['uid'] && localStorage['uid']!=''){
+
+    
+
+    if(localStorage['uid_one'] && localStorage['uid_one']!=''){
       this.left_text = '会员中心';
       this.left_path = '/personal/index'
     }else{
       this.left_text = '登录';
       this.left_path = '/login/index'
     }
-    if(localStorage.getItem('user_plan_id') && localStorage.getItem('user_plan_id')>0){
-      this.user_plan_id = localStorage.getItem('user_plan_id');
+    if(localStorage.getItem('user_plan_id_one') && localStorage.getItem('user_plan_id_one')>0){
+      this.user_plan_id = localStorage.getItem('user_plan_id_one');
     }
-    this.gethome().then(()=>{
-
-      if(localStorage.getItem('lottype') && localStorage.getItem('lottype')>0){
-        for(var i = 0;i<this.lottype.length;i++){
-          if(localStorage.getItem('lottype') == this.lottype[i].lottype){
-            this.active_lt = i;
-          }
-        }
-      }
-      if(localStorage.getItem('playname') && localStorage.getItem('playtype')){
-        let active_item = this.lottype[this.active_lt].playtypes;
-        for(var i=0;i<active_item.length;i++){
-          if(active_item[i].playtype==localStorage.getItem('playtype') && active_item[i].playname==localStorage.getItem('playname')){
-            this.active_pt = i;
-            let arr_mashu = active_item[i].mashu.split(',')
-            for(let k=0;k<arr_mashu.length;k++){
-              if(arr_mashu[k] == localStorage.getItem('mashu')){
-                this.active_mashu = k;
-              }
-            }
-            let arr_qishu = active_item[i].qishu.split(',')
-            for(let k=0;k<arr_qishu.length;k++){
-              if(arr_qishu[k] == localStorage.getItem('qishu')){
-                this.active_qishu = k;
-              }
+    if(!this.$store.getters.isback || this.isFirstEnter){
+      this.gethome().then(()=>{
+        if(localStorage.getItem('lottype_one') && localStorage.getItem('lottype_one')>0){
+          for(var i = 0;i<this.lottype.length;i++){
+            if(localStorage.getItem('lottype_one') == this.lottype[i].lottype){
+              this.active_lt = i;
             }
           }
         }
-      }
-      
+        if(localStorage.getItem('pos_type_one') && localStorage.getItem('playtype_one')){
+          let active_item = this.lottype[this.active_lt].playtypes;
+          for(var i=0;i<active_item.length;i++){
+            if(active_item[i].playtype==localStorage.getItem('playtype_one') && active_item[i].pos_type==localStorage.getItem('pos_type_one')){
+              this.active_pt = i;
+              let arr_mashu = active_item[i].mashu.split(',')
+              for(let k=0;k<arr_mashu.length;k++){
+                if(arr_mashu[k] == localStorage.getItem('mashu_one')){
+                  this.active_mashu = k;
+                }
+              }
+              let arr_qishu = active_item[i].qishu.split(',')
+              for(let k=0;k<arr_qishu.length;k++){
+                if(arr_qishu[k] == localStorage.getItem('qishu_one')){
+                  this.active_qishu = k;
+                }
+              }
+            }
+          }
+        }
+        this.getplans();
+      })
+    }else{
+      this.lastid = 0;
       this.getplans();
-    })
+      
+    }
+    
+    
     this.isFirstEnter=false;
     this.$store.dispatch('set_isback',false)
     
-    if(localStorage['uid'] && localStorage['uid']!=''){
+    if(localStorage['uid_one'] && localStorage['uid_one']!=''){
       this.left_text = '会员中心';
       this.left_path = '/personal/index'
     }

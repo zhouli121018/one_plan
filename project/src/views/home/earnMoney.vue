@@ -67,10 +67,7 @@ export default {
     },
     methods: {
         async gethome() {
-            const { data } = await gethome({
-                sid: localStorage.getItem('sid'),
-                uid: localStorage.getItem('uid')
-            })
+            const { data } = await gethome()
             this.$store.dispatch('set_kfwecha',data.kfwecha)
         },
         beforeClose(action,done){
@@ -86,16 +83,11 @@ export default {
             done();
         },
         async getearnmoneydesc() {
-            const { data } = await getearnmoneydesc({
-                sid: localStorage.getItem('sid'),
-                uid: localStorage.getItem('uid')
-            })
+            const { data } = await getearnmoneydesc()
             this.info = data
         },
         async submittikuan() {
             const { data } = await submittikuan({
-                sid: localStorage.getItem('sid'),
-                uid: localStorage.getItem('uid'),
                 alipay:this.alipay
             })
             this.info.yongjin = data.yongjin

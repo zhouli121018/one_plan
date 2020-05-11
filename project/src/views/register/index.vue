@@ -36,25 +36,11 @@ export default {
             vcode: '', //验证码
             device: 0  ,//手机类型,
             has_pid:false,
-            regpiddes:''
+            regpiddes:'邀请码'
         }
     },
     methods: {
-        async gethome() {
-            let obj = {};
-            if(localStorage.getItem('sid')){
-                obj.sid = localStorage.getItem('sid')
-            }
-            if(localStorage.getItem('uid')){
-                obj.uid = localStorage.getItem('uid')
-            }
-            const { data } = await gethome(obj)
-            this.$store.dispatch('set_homedata',data)
-            this.$store.dispatch('set_kfwecha',data.kfwecha)
-            this.$store.dispatch('set_issetkjtx',data.issetkjtx)
-            this.$store.dispatch('set_apkurl',data.apkurl)
-            this.regpiddes = data.regpiddes
-        },
+        
         async codeVerify() {
             const { data } = await getvcode({
                 phone: this.phone
@@ -90,13 +76,13 @@ export default {
                 device: this.device,
                 pid: this.pid
             };
-            if(localStorage.getItem('cid')){ //渠道号
-                obj.cid = localStorage.getItem('cid')
+            if(localStorage.getItem('cid_one')){ //渠道号
+                obj.cid = localStorage.getItem('cid_one')
             }
             const { data } = await regist(obj)
             if(data.errorcode == 0) {
-                window.localStorage['uid'] = data.uid
-                window.localStorage['sid'] = data.sid
+                window.localStorage['uid_one'] = data.uid
+                window.localStorage['sid_one'] = data.sid
                 this.$router.replace('/home/index')
             }
         }
@@ -124,8 +110,15 @@ export default {
         }
     },
     created(){
-        this.pid = localStorage.getItem('pid');
-        if(localStorage.getItem('pid')){
+        if(this.$route.query.cid){
+            localStorage['cid_one'] = this.$route.query.cid;
+        }
+        if(this.$route.query.pid){
+            localStorage['pid_one'] = this.$route.query.pid;
+        }
+        
+        this.pid = localStorage.getItem('pid_one');
+        if(localStorage.getItem('pid_one')){
             this.has_pid = true;
         }
         let u = navigator.userAgent, app = navigator.appVersion;
@@ -136,21 +129,6 @@ export default {
         }
         if (isIOS) {
             this.device = 1
-        }
-
-        if(this.$root.$children[0].timer){
-          clearInterval(this.$root.$children[0].timer);
-          this.$root.$children[0].timer = null;
-        }
-        if(this.$root.$children[0].settimeout_timer){
-            clearTimeout(this.$root.$children[0].settimeout_timer)
-            this.$root.$children[0].settimeout_timer = null;
-        }
-
-        if(this.$store.getters.homeData == null){
-            this.gethome()
-        }else{
-            this.regpiddes = this.$store.getters.homeData.regpiddes
         }
     }
 }

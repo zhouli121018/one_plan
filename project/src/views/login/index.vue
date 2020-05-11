@@ -35,10 +35,9 @@ export default {
                 pass: this.code
             });
             if(data.errorcode == 0) {
-                window.localStorage['uid'] = data.uid
-                window.localStorage['sid'] = data.sid
+                window.localStorage['uid_one'] = data.uid
+                window.localStorage['sid_one'] = data.sid
                 this.$router.replace('/home/index')
-                this.$root.$children[0].gethome();
             }
             
         },
@@ -65,16 +64,6 @@ export default {
             }
         }
     },
-    activated(){
-        if(this.$root.$children[0].timer){
-          clearInterval(this.$root.$children[0].timer);
-          this.$root.$children[0].timer = null;
-        }
-        if(this.$root.$children[0].settimeout_timer){
-            clearTimeout(this.$root.$children[0].settimeout_timer)
-            this.$root.$children[0].settimeout_timer = null;
-        }
-    }
 }
 </script>
 

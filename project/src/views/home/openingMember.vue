@@ -85,8 +85,6 @@ export default {
         //支付宝支付
         async getalipayorderinfor() {
             const { data } = await getalipayorderinfor({
-                sid: localStorage.getItem('sid'),
-                uid: localStorage.getItem('uid'),
                 money: this.money
             })
             const div = document.createElement('div');

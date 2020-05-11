@@ -25,8 +25,6 @@ export default {
     methods:{
         async getkjhis () {
           const { data }    = await getkjhis({
-                sid: localStorage.getItem('sid'),
-                uid: localStorage.getItem('uid'),
                 lottype: this.$route.query.lottype
             });
           this.list = data.list;
@@ -48,9 +46,9 @@ export default {
     width .65rem
     height .65rem
     display inline-block
-    line-height .62rem
+    line-height .65rem
     text-align center
-    margin-right .08rem
+    margin-right .1rem
     font-size .39rem
 
 .color_0

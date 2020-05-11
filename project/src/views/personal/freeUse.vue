@@ -113,17 +113,12 @@ export default {
             })
         },
         async getfreeusedesc() {
-            const { data } = await getfreeusedesc({
-                sid: localStorage.getItem('sid'),
-                uid: localStorage.getItem('uid')
-            })
+            const { data } = await getfreeusedesc()
             this.info = data
         },
         async submitexchangeDay() {
             const { data } = await submitduihuan({
                 vipticket: this.vipticket,
-                uid: localStorage.getItem('uid'),
-                sid: localStorage.getItem('sid')
             }) 
             this.ticketnum = data.ticketnum//兑换后剩余优惠券张数
             this.info.vipticket = 0
@@ -146,9 +141,7 @@ export default {
                         return
                     }
                    const { data } = await submitduihuan({
-                       vipticket: _this.vipticket,
-                       uid: localStorage.getItem('uid'),
-                       sid: localStorage.getItem('sid')
+                       vipticket: _this.vipticket
                    }) 
                     _this.$toast(data.message)
                 }).catch(() => {

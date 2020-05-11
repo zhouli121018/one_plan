@@ -48,7 +48,7 @@ router.beforeEach((to, from, next) => {
         document.title = title
     }
     if( to.name == 'openRemind' || to.name == 'freeUse' || to.name == 'earnMoney'|| to.name == 'personalIndex' || to.name == 'like'){
-        if(!localStorage.getItem('uid') || !localStorage.getItem('sid')) {
+        if(!localStorage.getItem('uid_one') || !localStorage.getItem('sid_one')) {
             next({
                 path:'/login/index'
             })
