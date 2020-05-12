@@ -5,10 +5,10 @@
             <van-cell :title="l.planname"  :label="l.createtime" @click="go_home(l)">
                 <div slot="right-icon">
                     <div>
-                        <van-button size="mini" style="border-radius:.1rem;background:#108FE9;color:#fff;border-color:#108FE9;" @click.stop="del_like(l.id)">删除</van-button>
+                        <van-button size="mini" style="border-radius:.1rem;background:#108FE9;color:#fff;border-color:#108FE9;" @click.stop="del_like(l.user_plan_id)">删除</van-button>
                     </div>
                     <div>
-                        <van-button size="mini" style="border-radius:.1rem;background:#108FE9;color:#fff;border-color:#108FE9;" @click.stop="show_newname(l.id)">改名</van-button>
+                        <van-button size="mini" style="border-radius:.1rem;background:#108FE9;color:#fff;border-color:#108FE9;" @click.stop="show_newname(l)">改名</van-button>
                     </div>
                 </div>
             </van-cell>
@@ -58,8 +58,9 @@ export default {
           const { data }    = await mylike();
           this.list = data.list;
         },
-        show_newname(id){
-            this.cur_user_plan_id = id;
+        show_newname(item){
+            this.cur_user_plan_id = item.user_plan_id;
+            this.newname = item.planname
             this.show_tt = true;
         },
         beforeClose(action,done){

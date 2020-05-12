@@ -121,9 +121,9 @@
           <div style="box-shadow:0 0 .2rem #EEEEEE;margin-top:.3rem;padding:.4rem 0 .7rem;font-size:.37rem; ">
             <table border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <th style="border-bottom:1px solid #eee;">计划期次</th>
-                <th style="border-bottom:1px solid #eee;">计划内容</th>
-                <th style="border-bottom:1px solid #eee;">计划结果</th>
+                <th style="border-bottom:1px solid #eee;color:#E8541E;">计划期次</th>
+                <th style="border-bottom:1px solid #eee;color:#E8541E;">计划内容</th>
+                <th style="border-bottom:1px solid #eee;color:#E8541E;">计划结果</th>
               </tr>
               <tr v-for="(p,index) in planInfoList" :key="index">
                 <td>{{p.issue}}</td>
@@ -341,6 +341,7 @@ export default {
         if(this.planInfo &&this.planInfoList.length==0){
           this.$toast('当前没计划收藏')
         }else{
+          this.user_plan_name = this.planInfo.user_plan_name;
           this.show_shoucang = true;
         }
       }
@@ -514,7 +515,6 @@ export default {
         
         this.planInfo = data;
         this.user_plan_id = data.user_plan_id;
-        this.user_plan_name = data.user_plan_name;
         this.hasnextpage = data.hasnextpage;
         
 
@@ -719,6 +719,7 @@ export default {
     this.show_mashu = false;
     this.show_pt = false;
     this.show_qishu = false;
+    this.lastid = 0;
 
     
 
@@ -764,7 +765,6 @@ export default {
         this.getplans();
       })
     }else{
-      this.lastid = 0;
       this.getplans();
       
     }

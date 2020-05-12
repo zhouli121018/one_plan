@@ -163,7 +163,7 @@ export default {
             this.$router.push(path);
         },
         async getaccount() {
-            const { data } = await getaccount()
+            const { data } = await getaccount({})
             this.info = data
             this.ticketnum = this.info.ticketnum
         },
