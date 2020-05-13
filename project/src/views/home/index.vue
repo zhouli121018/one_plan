@@ -121,9 +121,9 @@
           <div style="box-shadow:0 0 .2rem #EEEEEE;margin-top:.3rem;padding:.4rem 0 .7rem;font-size:.37rem; ">
             <table border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <th style="border-bottom:1px solid #eee;color:#E8541E;">计划期次</th>
-                <th style="border-bottom:1px solid #eee;color:#E8541E;">计划内容</th>
-                <th style="border-bottom:1px solid #eee;color:#E8541E;">计划结果</th>
+                <th style="border-bottom:1px solid #eee;">计划期次</th>
+                <th style="border-bottom:1px solid #eee;">计划内容</th>
+                <th style="border-bottom:1px solid #eee;">计划结果</th>
               </tr>
               <tr v-for="(p,index) in planInfoList" :key="index">
                 <td>{{p.issue}}</td>
@@ -502,6 +502,10 @@ export default {
             clearTimeout(this.$store.getters.cur_timer)
             this.$store.dispatch('set_cur_timer',null)
         }
+        if(this.$store.getters.kj_number_timer){
+          clearTimeout(this.$store.getters.kj_number_timer)
+          this.$store.dispatch('set_kj_number_timer',null)
+        }
         let obj = {
           lottype: this.lottype[this.active_lt].lottype,
           playtype: this.lottype[this.active_lt].playtypes[this.active_pt].playtype,
@@ -548,22 +552,10 @@ export default {
         this.curTime();
         this.countTime()
 
-        if(this.$store.getters.kj_number_timer){
-            clearTimeout(this.$store.getters.kj_number_timer)
-            this.$store.dispatch('set_kj_number_timer',null)
-        }
         
         if(data.prekjnum == '开奖中...'){
             this.lastid = 0;
             this.$store.dispatch('set_kj_number_timer',setTimeout(()=>{
-              if(this.$store.getters.timer) {
-                  clearTimeout(this.$store.getters.timer)
-                  this.$store.dispatch('set_timer',null)
-              }
-              if(this.$store.getters.cur_timer){
-                  clearTimeout(this.$store.getters.cur_timer)
-                  this.$store.dispatch('set_cur_timer',null)
-              }
               this.getplans();
             },3000))
             return;
@@ -878,10 +870,10 @@ table
     td 
         padding .2rem 0
         text-align center
-        color #373737
-    td  
         color #2B2B2B
         font-size .35rem
+        &:first-child
+          color #E8541E
     th
         font-size .37rem
 

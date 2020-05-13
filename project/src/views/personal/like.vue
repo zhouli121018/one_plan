@@ -21,10 +21,11 @@
             class="dialog_content_input"
             :before-close="beforeClose"
             >
-            <van-field
+            <div style="padding:.4rem .2rem;">计划名称：</div>
+            <van-field type="textarea" autosize style="border:1px solid #eee;"
                 v-model.trim="newname"
                 clearable
-                label="名称："
+                label=""
             />
         </van-dialog>
 
@@ -52,6 +53,7 @@ export default {
             localStorage.setItem('mashu_one',obj.mashu);
             localStorage.setItem('qishu_one',obj.qishu);
             localStorage.setItem('user_plan_id_one',obj.user_plan_id);
+            this.$store.dispatch('set_isback',true)
             this.$router.push('/home/index')
         },
         async mylike () {
@@ -121,10 +123,6 @@ export default {
         this.isFirstEnter=true;
     },
     activated(){
-        if(this.$route.meta.isBack){
-            this.$store.dispatch('set_isback',true)
-        }
-        this.$route.meta.isBack=false;
         if(!this.$store.getters.isback || this.isFirstEnter){
             this.mylike()
         }
