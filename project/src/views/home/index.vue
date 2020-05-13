@@ -86,7 +86,7 @@
                 </div>
                 
 
-                <span v-if="lottype && lottype.length>0 && lottype[active_lt].playtypes && lottype[active_lt].playtypes.length>0 && lottype[active_lt].playtypes[active_pt].qishu">计划期数</span>
+                <span v-if="lottype && lottype.length>0 && lottype[active_lt].playtypes && lottype[active_lt].playtypes.length>0 && lottype[active_lt].playtypes[active_pt].qishu">期数</span>
                 <div style="position:relative;" v-if="lottype && lottype.length>0 && lottype[active_lt].playtypes && lottype[active_lt].playtypes.length>0 && lottype[active_lt].playtypes[active_pt].qishu">
                   <div style="border:1px solid #0BA194;padding:.1rem;margin:0 0 0 .1rem;border-radius:.05rem;min-width:.9rem;" @click="click_qs">
                     <div class="flex text_center">
@@ -101,6 +101,7 @@
                 </div>
                 
               </div>
+
               <div class="flex text_center" style="">
                 <div class=" flex_grow_1" style="padding:.3rem .1rem .3rem .4rem;" @click="click_check_plan">
                   <img src="~@/assets/home/refresh.png" alt="1" style="width:.45rem;">
@@ -121,15 +122,15 @@
           <div style="box-shadow:0 0 .2rem #EEEEEE;margin-top:.3rem;padding:.4rem 0 .7rem;font-size:.37rem; ">
             <table border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <th style="border-bottom:1px solid #eee;">计划期次</th>
+                <th style="border-bottom:1px solid #eee;">期数</th>
                 <th style="border-bottom:1px solid #eee;">计划内容</th>
                 <th style="border-bottom:1px solid #eee;">计划结果</th>
               </tr>
               <tr v-for="(p,index) in planInfoList" :key="index">
-                <td>{{p.issue}}</td>
+                <td :style="{'color':index==0?'#E8541E':''}">{{p.issue}}</td>
                 <td v-if="p.content == '会员续费查看'" style="color:#E7541E" @click="jumpTo('/personal/freeUse')">{{p.content}}</td>
-                <td v-else>{{p.content}}</td>
-                <td>{{p.result}}</td>
+                <td :style="{'color':index==0?'#E8541E':''}" v-else>{{p.content}}</td>
+                <td :style="{'color':index==0?'#E8541E':''}">{{p.result}}</td>
               </tr>
             </table>
 
@@ -198,7 +199,54 @@
             class="dialog_content_input"
             :before-close="beforeClose_change_plan"
             >
-            <div style="padding:.4rem .2rem;line-height:1.6;">如果想回看当前计划，请收藏再切换。切换后无法找回，是否切换当前计划?</div>
+            <div style="padding:.4rem .2rem;line-height:1.6;">选择你需要的计划，切换后无法找回，如想保留原计划请先收藏。确定切换？</div>
+            <div class="flex" style="background:linear-gradient(-90deg,#E7FFFC,#fff);padding:.3rem .4rem;border-radius:.1rem; ">
+                <span v-if="lottype && lottype.length>0 && lottype[active_lt].playtypes && lottype[active_lt].playtypes.length>0">玩法</span>
+                <div style="position:relative;" v-if="lottype && lottype.length>0 && lottype[active_lt].playtypes && lottype[active_lt].playtypes.length>0">
+                  <div style="border:1px solid #0BA194;padding:.1rem;margin:0 .2rem 0 .1rem;border-radius:.05rem;min-width:.9rem;" @click="click_pt">
+                    <div class="flex text_center">
+                      <span class="flex_grow_1" style="color:#0BA194;">{{lottype[active_lt].playtypes[active_pt].playname}}</span> 
+                      <img src="~@/assets/home/down_blue.png" alt="1" style="width:.25rem;margin-left:.1rem;">
+                    </div>
+                  </div>
+                  <!-- <ul v-show="show_pt" style="position:absolute;top:.7rem;left:.1rem;border:1px solid #0BA194;min-width:85%;background:#fff;box-shadow:0 0 .12rem #0BA194;max-height:5rem;overflow:auto;z-index:10;">
+                    <li @click="change_pt(k)" class="check_li" v-for="(p,k) in lottype[active_lt].playtypes" :class="{active:active_pt==k}" :key="k">{{p.playname}}</li>
+                  </ul> -->
+                  <select name="" id="">
+                    <option :value="p.playtype" v-for="(p,k) in lottype[active_lt].playtypes" :key="k">{{p.playname}}</option>
+                  </select>
+                </div>
+                
+
+                <span v-if="lottype && lottype.length>0 && lottype[active_lt].playtypes && lottype[active_lt].playtypes.length>0 && lottype[active_lt].playtypes[active_pt].mashu">码数</span>
+                <div style="position:relative;" v-if="lottype && lottype.length>0 && lottype[active_lt].playtypes && lottype[active_lt].playtypes.length>0 && lottype[active_lt].playtypes[active_pt].mashu">
+                  <div style="border:1px solid #0BA194;padding:.1rem;margin:0 .2rem 0 .1rem;border-radius:.05rem;min-width:.9rem;" @click="click_ms">
+                    <div class="flex text_center">
+                      <span class="flex_grow_1" style="color:#0BA194;">{{lottype[active_lt].playtypes[active_pt].mashu.split(',')[active_mashu]}}</span> 
+                      <img src="~@/assets/home/down_blue.png" alt="1" style="width:.25rem;margin-left:.1rem;">
+                    </div>
+                  </div>
+                  <ul v-show="show_mashu" style="position:absolute;top:.7rem;left:.1rem;border:1px solid #0BA194;min-width:85%;background:#fff;box-shadow:0 0 .12rem #0BA194;max-height:5rem;overflow:auto;z-index:10;">
+                    <li @click="change_ms(j)" class="check_li" v-for="(m,j) in lottype[active_lt].playtypes[active_pt].mashu.split(',')" :class="{active:active_mashu==j}" :key="j">{{m}}</li>
+                  </ul>
+                </div>
+                
+
+                <span v-if="lottype && lottype.length>0 && lottype[active_lt].playtypes && lottype[active_lt].playtypes.length>0 && lottype[active_lt].playtypes[active_pt].qishu">期数</span>
+                <div style="position:relative;" v-if="lottype && lottype.length>0 && lottype[active_lt].playtypes && lottype[active_lt].playtypes.length>0 && lottype[active_lt].playtypes[active_pt].qishu">
+                  <div style="border:1px solid #0BA194;padding:.1rem;margin:0 0 0 .1rem;border-radius:.05rem;min-width:.9rem;" @click="click_qs">
+                    <div class="flex text_center">
+                      <span class="flex_grow_1" style="color:#0BA194;">{{lottype[active_lt].playtypes[active_pt].qishu.split(',')[active_qishu]}}</span> 
+                      <img src="~@/assets/home/down_blue.png" alt="1" style="width:.25rem;margin-left:.1rem;">
+                    </div>
+                  </div>
+                  <ul v-show="show_qishu" style="position:absolute;top:.7rem;left:.1rem;border:1px solid #0BA194;min-width:85%;background:#fff;box-shadow:0 0 .12rem #0BA194;max-height:5rem;overflow:auto;z-index:10;">
+                    <li @click="change_qs(j)" class="check_li" v-for="(m,j) in lottype[active_lt].playtypes[active_pt].qishu.split(',')" :class="{active:active_qishu==j}" :key="j">{{m}}</li>
+                  </ul>
+
+                </div>
+                
+              </div>
         </van-dialog>
 
         <van-dialog  
@@ -872,8 +920,7 @@ table
         text-align center
         color #2B2B2B
         font-size .35rem
-        &:first-child
-          color #E8541E
+          
     th
         font-size .37rem
 
