@@ -201,8 +201,8 @@
             >
             <div style="padding:.4rem .2rem;line-height:1.6;">选择你需要的计划，切换后无法找回，如想保留原计划请先收藏。确定切换？</div>
             <div class="flex" style="background:linear-gradient(-90deg,#E7FFFC,#fff);padding:.3rem .4rem;border-radius:.1rem; ">
-                <span v-if="check_plan_list && check_plan_list.length>0 && check_plan_list[active_lt].playtypes && check_plan_list[active_lt].playtypes.length>0">玩法</span>
-                <div style="position:relative;" v-if="check_plan_list && check_plan_list.length>0 && check_plan_list[active_lt].playtypes && check_plan_list[active_lt].playtypes.length>0">
+                <span v-if="check_plan_list && check_plan_list.length>0">玩法</span>
+                <div style="position:relative;" v-if="check_plan_list && check_plan_list.length>0">
                   <!-- <div style="border:1px solid #0BA194;padding:.1rem;margin:0 .2rem 0 .1rem;border-radius:.05rem;min-width:.9rem;" @click="click_pt">
                     <div class="flex text_center">
                       <span class="flex_grow_1" style="color:#0BA194;">{{lottype[active_lt].playtypes[active_pt].playname}}</span> 
@@ -212,14 +212,14 @@
                   <!-- <ul v-show="show_pt" style="position:absolute;top:.7rem;left:.1rem;border:1px solid #0BA194;min-width:85%;background:#fff;box-shadow:0 0 .12rem #0BA194;max-height:5rem;overflow:auto;z-index:10;">
                     <li @click="change_pt(k)" class="check_li" v-for="(p,k) in lottype[active_lt].playtypes" :class="{active:active_pt==k}" :key="k">{{p.playname}}</li>
                   </ul> -->
-                  <select style="max-width:2.4rem;min-width:1.6rem;" v-model="plantype_select_value" @change="check_plan">
-                    <option :value="p.playtype" v-for="(p,k) in check_plan_list[active_lt].playtypes" :key="k" :data_pos="p.pos_type" :data_index="k">{{p.playname}}</option>
+                  <select style="max-width:2.4rem;min-width:1.6rem;"  @change="check_plan">
+                    <option :value="p.playtype" v-for="(p,k) in check_plan_list" :key="k" :data_pos="p.pos_type" :data_index="k">{{p.playname}}</option>
                   </select>
                 </div>
                 
 
-                <span v-if="check_plan_list && check_plan_list.length>0 && check_plan_list[active_lt].playtypes && check_plan_list[active_lt].playtypes.length>0 && check_plan_list[active_lt].playtypes[active_pt_a].mashu" style="margin-left:.2rem;">码数</span>
-                <div style="position:relative;" v-if="check_plan_list && check_plan_list.length>0 && check_plan_list[active_lt].playtypes && check_plan_list[active_lt].playtypes.length>0 && check_plan_list[active_lt].playtypes[active_pt_a].mashu">
+                <span v-if="mashu_list && mashu_list.length>0" style="margin-left:.2rem;">码数</span>
+                <div style="position:relative;" v-if="mashu_list && mashu_list.length>0">
                   <!-- <div style="border:1px solid #0BA194;padding:.1rem;margin:0 .2rem 0 .1rem;border-radius:.05rem;min-width:.9rem;" @click="click_ms">
                     <div class="flex text_center">
                       <span class="flex_grow_1" style="color:#0BA194;">{{lottype[active_lt].playtypes[active_pt].mashu.split(',')[active_mashu]}}</span> 
@@ -229,14 +229,14 @@
                   <ul v-show="show_mashu" style="position:absolute;top:.7rem;left:.1rem;border:1px solid #0BA194;min-width:85%;background:#fff;box-shadow:0 0 .12rem #0BA194;max-height:5rem;overflow:auto;z-index:10;">
                     <li @click="change_ms(j)" class="check_li" v-for="(m,j) in lottype[active_lt].playtypes[active_pt].mashu.split(',')" :class="{active:active_mashu==j}" :key="j">{{m}}</li>
                   </ul> -->
-                  <select style="max-width:2.4rem;min-width:1rem;" v-model="mashu_select_value">
-                    <option :value="m" v-for="(m,j) in check_plan_list[active_lt].playtypes[active_pt_a].mashu.split(',')" :key="j">{{m}}</option>
+                  <select style="max-width:2.4rem;min-width:1rem;" v-model="plantype_select_value">
+                    <option :value="m" v-for="(m,j) in mashu_list"  :key="j">{{m}}</option>
                   </select>
                 </div>
                 
 
-                <span v-if="check_plan_list && check_plan_list.length>0 && check_plan_list[active_lt].playtypes && check_plan_list[active_lt].playtypes.length>0 && check_plan_list[active_lt].playtypes[active_pt_a].qishu" style="margin-left:.2rem;">期数</span>
-                <div style="position:relative;" v-if="check_plan_list && check_plan_list.length>0 && check_plan_list[active_lt].playtypes && check_plan_list[active_lt].playtypes.length>0 && check_plan_list[active_lt].playtypes[active_pt_a].qishu">
+                <span v-if="qishu_list && qishu_list.length>0" style="margin-left:.2rem;">期数</span>
+                <div style="position:relative;" v-if="qishu_list && qishu_list.length>0">
                   <!-- <div style="border:1px solid #0BA194;padding:.1rem;margin:0 0 0 .1rem;border-radius:.05rem;min-width:.9rem;" @click="click_qs">
                     <div class="flex text_center">
                       <span class="flex_grow_1" style="color:#0BA194;">{{lottype[active_lt].playtypes[active_pt].qishu.split(',')[active_qishu]}}</span> 
@@ -247,8 +247,8 @@
                     <li @click="change_qs(j)" class="check_li" v-for="(m,j) in lottype[active_lt].playtypes[active_pt].qishu.split(',')" :class="{active:active_qishu==j}" :key="j">{{m}}</li>
                   </ul> -->
 
-                  <select style="max-width:2.4rem;min-width:1rem;" v-model="qishu_select_value">
-                    <option :value="m" v-for="(m,j) in check_plan_list[active_lt].playtypes[active_pt_a].qishu.split(',')" :key="j">{{m}}</option>
+                  <select style="max-width:2.4rem;min-width:1rem;" >
+                    <option :value="m" v-for="(m,j) in qishu_list" :key="j">{{m}}</option>
                   </select>
 
                 </div>
@@ -384,8 +384,11 @@ export default {
       isLoading:false,
 
       active_pt_a:0,
-      active_mashu_a:'',
-      active_qishu_a:'',
+      active_mashu_a:0,
+      active_qishu_a:0,
+      check_plan_list:[],
+      mashu_list:[],
+      qishu_list:[]
 
       
     }
@@ -394,8 +397,14 @@ export default {
     check_plan(a){
       console.log(a.target.selectedOptions[0].getAttribute('data_index'))
       this.active_pt_a = a.target.selectedOptions[0].getAttribute('data_index')
-      this.mashu_select_value = this.lottype[this.active_lt].playtypes[this.active_pt_a].mashu.split(',')[0]
-      this.qishu_select_value = this.lottype[this.active_lt].playtypes[this.active_pt_a].qishu.split(',')[0]
+      this.mashu_list = [];
+      if(this.check_plan_list[this.active_pt_a].mashu.split(',').length>0 && this.check_plan_list[this.active_pt_a].mashu.split(',')[0]){
+        this.mashu_list = this.mashu_list.concat(this.check_plan_list[this.active_pt_a].mashu.split(','))
+      }
+      this.qishu_list = [];
+      if(this.check_plan_list[this.active_pt_a].qishu.split(',').length>0 && this.check_plan_list[this.active_pt_a].qishu.split(',')[0]){
+        this.qishu_list = this.qishu_list.concat(this.check_plan_list[this.active_pt_a].qishu.split(','))
+      }
       console.log(arguments)
     },
     click_check_plan(){
@@ -403,9 +412,20 @@ export default {
         this.show_zhuce = true
       }else{
         this.active_pt_a = this.active_pt;
-        this.plantype_select_value = this.lottype[this.active_lt].playtypes[this.active_pt_a].playtype
-        this.mashu_select_value = this.lottype[this.active_lt].playtypes[this.active_pt_a].mashu.split(',')[0]
-        this.qishu_select_value = this.lottype[this.active_lt].playtypes[this.active_pt_a].qishu.split(',')[0]
+        this.check_plan_list = [];
+        this.check_plan_list = this.check_plan_list.concat(this.lottype[this.active_lt].playtypes)
+        this.mashu_list = [];
+        if(this.check_plan_list[this.active_pt_a].mashu.split(',').length>0 && this.check_plan_list[this.active_pt_a].mashu.split(',')[0]){
+          this.mashu_list = this.mashu_list.concat(this.check_plan_list[this.active_pt_a].mashu.split(','))
+        }
+        this.qishu_list = [];
+        if(this.check_plan_list[this.active_pt_a].qishu.split(',').length>0 && this.check_plan_list[this.active_pt_a].qishu.split(',')){
+          this.qishu_list = this.qishu_list.concat(this.check_plan_list[this.active_pt_a].qishu.split(','))
+        }
+        
+        this.active_mashu_a = 0;
+        this.active_qishu_a = 0;
+        // this.plantype_select_value = this.check_plan_list[this.active_pt_a].playtype
         this.show_change_plan = true;
       }
     },
@@ -867,11 +887,6 @@ export default {
       }
       next();
   },
-  computed:{
-    check_plan_list(){
-      return this.lottype;
-    }
-  }
 }
 </script>
 
