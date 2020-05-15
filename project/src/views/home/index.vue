@@ -60,10 +60,10 @@
               <div class="flex" style="background:linear-gradient(-90deg,#E7FFFC,#fff);padding:.3rem .4rem;border-radius:.1rem; ">
                 <span v-if="lottype && lottype.length>0 && lottype[active_lt].playtypes && lottype[active_lt].playtypes.length>0">玩法</span>
                 <div style="position:relative;" v-if="lottype && lottype.length>0 && lottype[active_lt].playtypes && lottype[active_lt].playtypes.length>0">
-                  <div style="border:1px solid #0BA194;padding:.1rem;margin:0 .2rem 0 .1rem;border-radius:.05rem;min-width:.9rem;" @click="click_pt">
+                  <div style="border:1px solid #0BA194;padding:.1rem;margin:0 .2rem 0 .1rem;border-radius:.05rem;min-width:.9rem;" >
                     <div class="flex text_center">
                       <span class="flex_grow_1" style="color:#0BA194;">{{lottype[active_lt].playtypes[active_pt].playname}}</span> 
-                      <img src="~@/assets/home/down_blue.png" alt="1" style="width:.25rem;margin-left:.1rem;">
+                      <!-- <img src="~@/assets/home/down_blue.png" alt="1" style="width:.25rem;margin-left:.1rem;"> -->
                     </div>
                   </div>
                   <ul v-show="show_pt" style="position:absolute;top:.7rem;left:.1rem;border:1px solid #0BA194;min-width:85%;background:#fff;box-shadow:0 0 .12rem #0BA194;max-height:5rem;overflow:auto;z-index:10;">
@@ -74,10 +74,10 @@
 
                 <span v-if="lottype && lottype.length>0 && lottype[active_lt].playtypes && lottype[active_lt].playtypes.length>0 && lottype[active_lt].playtypes[active_pt].mashu">码数</span>
                 <div style="position:relative;" v-if="lottype && lottype.length>0 && lottype[active_lt].playtypes && lottype[active_lt].playtypes.length>0 && lottype[active_lt].playtypes[active_pt].mashu">
-                  <div style="border:1px solid #0BA194;padding:.1rem;margin:0 .2rem 0 .1rem;border-radius:.05rem;min-width:.9rem;" @click="click_ms">
+                  <div style="border:1px solid #0BA194;padding:.1rem;margin:0 .2rem 0 .1rem;border-radius:.05rem;min-width:.9rem;" >
                     <div class="flex text_center">
                       <span class="flex_grow_1" style="color:#0BA194;">{{lottype[active_lt].playtypes[active_pt].mashu.split(',')[active_mashu]}}</span> 
-                      <img src="~@/assets/home/down_blue.png" alt="1" style="width:.25rem;margin-left:.1rem;">
+                      <!-- <img src="~@/assets/home/down_blue.png" alt="1" style="width:.25rem;margin-left:.1rem;"> -->
                     </div>
                   </div>
                   <ul v-show="show_mashu" style="position:absolute;top:.7rem;left:.1rem;border:1px solid #0BA194;min-width:85%;background:#fff;box-shadow:0 0 .12rem #0BA194;max-height:5rem;overflow:auto;z-index:10;">
@@ -88,10 +88,10 @@
 
                 <span v-if="lottype && lottype.length>0 && lottype[active_lt].playtypes && lottype[active_lt].playtypes.length>0 && lottype[active_lt].playtypes[active_pt].qishu">期数</span>
                 <div style="position:relative;" v-if="lottype && lottype.length>0 && lottype[active_lt].playtypes && lottype[active_lt].playtypes.length>0 && lottype[active_lt].playtypes[active_pt].qishu">
-                  <div style="border:1px solid #0BA194;padding:.1rem;margin:0 0 0 .1rem;border-radius:.05rem;min-width:.9rem;" @click="click_qs">
+                  <div style="border:1px solid #0BA194;padding:.1rem;margin:0 0 0 .1rem;border-radius:.05rem;min-width:.9rem;">
                     <div class="flex text_center">
                       <span class="flex_grow_1" style="color:#0BA194;">{{lottype[active_lt].playtypes[active_pt].qishu.split(',')[active_qishu]}}</span> 
-                      <img src="~@/assets/home/down_blue.png" alt="1" style="width:.25rem;margin-left:.1rem;">
+                      <!-- <img src="~@/assets/home/down_blue.png" alt="1" style="width:.25rem;margin-left:.1rem;"> -->
                     </div>
                   </div>
                   <ul v-show="show_qishu" style="position:absolute;top:.7rem;left:.1rem;border:1px solid #0BA194;min-width:85%;background:#fff;box-shadow:0 0 .12rem #0BA194;max-height:5rem;overflow:auto;z-index:10;">
