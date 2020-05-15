@@ -192,7 +192,7 @@
             />
         </van-dialog>
 
-        <van-dialog  v-if="planInfo"
+        <van-dialog  v-if="planInfo" style="overflow:visible;"
             v-model="show_change_plan"
             title="温馨提示" 
             show-cancel-button
@@ -200,56 +200,46 @@
             :before-close="beforeClose_change_plan"
             >
             <div style="padding:.4rem .2rem;line-height:1.6;">选择你需要的计划，切换后无法找回，如想保留原计划请先收藏。确定切换？</div>
-            <div class="flex" style="background:linear-gradient(-90deg,#E7FFFC,#fff);padding:.3rem .4rem;border-radius:.1rem; ">
-                <span v-if="check_plan_list && check_plan_list.length>0">玩法</span>
-                <div style="position:relative;" v-if="check_plan_list && check_plan_list.length>0">
-                  <!-- <div style="border:1px solid #0BA194;padding:.1rem;margin:0 .2rem 0 .1rem;border-radius:.05rem;min-width:.9rem;" @click="click_pt">
+            <div class="flex" style="background:linear-gradient(-90deg,#E7FFFC,#fff);padding:.3rem .1rem;border-radius:.1rem;white-space:nowrap; ">
+                <span v-if="lottype && lottype.length>0 && lottype[active_lt].playtypes && lottype[active_lt].playtypes.length>0">玩法</span>
+                <div style="position:relative;" v-if="lottype && lottype.length>0 && lottype[active_lt].playtypes && lottype[active_lt].playtypes.length>0">
+                  <div style="border:1px solid #0BA194;padding:.1rem;margin:0 .2rem 0 .1rem;border-radius:.05rem;min-width:.9rem;" @click="click_pt_a">
                     <div class="flex text_center">
-                      <span class="flex_grow_1" style="color:#0BA194;">{{lottype[active_lt].playtypes[active_pt].playname}}</span> 
-                      <img src="~@/assets/home/down_blue.png" alt="1" style="width:.25rem;margin-left:.1rem;">
-                    </div>
-                  </div> -->
-                  <!-- <ul v-show="show_pt" style="position:absolute;top:.7rem;left:.1rem;border:1px solid #0BA194;min-width:85%;background:#fff;box-shadow:0 0 .12rem #0BA194;max-height:5rem;overflow:auto;z-index:10;">
-                    <li @click="change_pt(k)" class="check_li" v-for="(p,k) in lottype[active_lt].playtypes" :class="{active:active_pt==k}" :key="k">{{p.playname}}</li>
-                  </ul> -->
-                  <select style="max-width:2.4rem;min-width:1.6rem;"  @change="check_plan">
-                    <option :value="p.playtype" v-for="(p,k) in check_plan_list" :key="k" :data_pos="p.pos_type" :data_index="k">{{p.playname}}</option>
-                  </select>
-                </div>
-                
-
-                <span v-if="mashu_list && mashu_list.length>0" style="margin-left:.2rem;">码数</span>
-                <div style="position:relative;" v-if="mashu_list && mashu_list.length>0">
-                  <!-- <div style="border:1px solid #0BA194;padding:.1rem;margin:0 .2rem 0 .1rem;border-radius:.05rem;min-width:.9rem;" @click="click_ms">
-                    <div class="flex text_center">
-                      <span class="flex_grow_1" style="color:#0BA194;">{{lottype[active_lt].playtypes[active_pt].mashu.split(',')[active_mashu]}}</span> 
+                      <span class="flex_grow_1" style="color:#0BA194;">{{lottype[active_lt].playtypes[active_pt_a].playname}}</span> 
                       <img src="~@/assets/home/down_blue.png" alt="1" style="width:.25rem;margin-left:.1rem;">
                     </div>
                   </div>
-                  <ul v-show="show_mashu" style="position:absolute;top:.7rem;left:.1rem;border:1px solid #0BA194;min-width:85%;background:#fff;box-shadow:0 0 .12rem #0BA194;max-height:5rem;overflow:auto;z-index:10;">
-                    <li @click="change_ms(j)" class="check_li" v-for="(m,j) in lottype[active_lt].playtypes[active_pt].mashu.split(',')" :class="{active:active_mashu==j}" :key="j">{{m}}</li>
-                  </ul> -->
-                  <select style="max-width:2.4rem;min-width:1rem;" v-model="plantype_select_value">
-                    <option :value="m" v-for="(m,j) in mashu_list"  :key="j">{{m}}</option>
-                  </select>
+                  <ul v-show="show_pt_a" style="position:absolute;top:.7rem;left:.1rem;border:1px solid #0BA194;min-width:85%;background:#fff;box-shadow:0 0 .12rem #0BA194;max-height:5rem;overflow:auto;z-index:10;">
+                    <li @click="change_pt_a(k)" class="check_li" v-for="(p,k) in lottype[active_lt].playtypes" :class="{active:active_pt_a==k}" :key="k">{{p.playname}}</li>
+                  </ul>
                 </div>
                 
 
-                <span v-if="qishu_list && qishu_list.length>0" style="margin-left:.2rem;">期数</span>
-                <div style="position:relative;" v-if="qishu_list && qishu_list.length>0">
-                  <!-- <div style="border:1px solid #0BA194;padding:.1rem;margin:0 0 0 .1rem;border-radius:.05rem;min-width:.9rem;" @click="click_qs">
+                <span v-if="lottype && lottype.length>0 && lottype[active_lt].playtypes && lottype[active_lt].playtypes.length>0 && lottype[active_lt].playtypes[active_pt_a].mashu">码数</span>
+                <div style="position:relative;" v-if="lottype && lottype.length>0 && lottype[active_lt].playtypes && lottype[active_lt].playtypes.length>0 && lottype[active_lt].playtypes[active_pt_a].mashu">
+                  <div style="border:1px solid #0BA194;padding:.1rem;margin:0 .2rem 0 .1rem;border-radius:.05rem;min-width:.9rem;" @click="click_ms_a">
                     <div class="flex text_center">
-                      <span class="flex_grow_1" style="color:#0BA194;">{{lottype[active_lt].playtypes[active_pt].qishu.split(',')[active_qishu]}}</span> 
+                      <span class="flex_grow_1" style="color:#0BA194;">{{lottype[active_lt].playtypes[active_pt_a].mashu.split(',')[active_mashu_a]}}</span> 
                       <img src="~@/assets/home/down_blue.png" alt="1" style="width:.25rem;margin-left:.1rem;">
                     </div>
                   </div>
-                  <ul v-show="show_qishu" style="position:absolute;top:.7rem;left:.1rem;border:1px solid #0BA194;min-width:85%;background:#fff;box-shadow:0 0 .12rem #0BA194;max-height:5rem;overflow:auto;z-index:10;">
-                    <li @click="change_qs(j)" class="check_li" v-for="(m,j) in lottype[active_lt].playtypes[active_pt].qishu.split(',')" :class="{active:active_qishu==j}" :key="j">{{m}}</li>
-                  </ul> -->
+                  <ul v-show="show_mashu_a" style="position:absolute;top:.7rem;left:.1rem;border:1px solid #0BA194;min-width:85%;background:#fff;box-shadow:0 0 .12rem #0BA194;max-height:5rem;overflow:auto;z-index:10;">
+                    <li @click="change_ms_a(j)" class="check_li" v-for="(m,j) in lottype[active_lt].playtypes[active_pt_a].mashu.split(',')" :class="{active:active_mashu_a==j}" :key="j">{{m}}</li>
+                  </ul>
+                </div>
+                
 
-                  <select style="max-width:2.4rem;min-width:1rem;" >
-                    <option :value="m" v-for="(m,j) in qishu_list" :key="j">{{m}}</option>
-                  </select>
+                <span v-if="lottype && lottype.length>0 && lottype[active_lt].playtypes && lottype[active_lt].playtypes.length>0 && lottype[active_lt].playtypes[active_pt_a].qishu">期数</span>
+                <div style="position:relative;" v-if="lottype && lottype.length>0 && lottype[active_lt].playtypes && lottype[active_lt].playtypes.length>0 && lottype[active_lt].playtypes[active_pt_a].qishu">
+                  <div style="border:1px solid #0BA194;padding:.1rem;margin:0 0 0 .1rem;border-radius:.05rem;min-width:.9rem;" @click="click_qs_a">
+                    <div class="flex text_center">
+                      <span class="flex_grow_1" style="color:#0BA194;">{{lottype[active_lt].playtypes[active_pt_a].qishu.split(',')[active_qishu_a]}}</span> 
+                      <img src="~@/assets/home/down_blue.png" alt="1" style="width:.25rem;margin-left:.1rem;">
+                    </div>
+                  </div>
+                  <ul v-show="show_qishu_a" style="position:absolute;top:.7rem;left:.1rem;border:1px solid #0BA194;min-width:85%;background:#fff;box-shadow:0 0 .12rem #0BA194;max-height:5rem;overflow:auto;z-index:10;">
+                    <li @click="change_qs_a(j)" class="check_li" v-for="(m,j) in lottype[active_lt].playtypes[active_pt_a].qishu.split(',')" :class="{active:active_qishu_a==j}" :key="j">{{m}}</li>
+                  </ul>
 
                 </div>
                 
@@ -386,46 +376,59 @@ export default {
       active_pt_a:0,
       active_mashu_a:0,
       active_qishu_a:0,
-      check_plan_list:[],
-      mashu_list:[],
-      qishu_list:[]
+      show_pt_a: false,
+      show_mashu_a: false,
+      show_qishu_a: false
 
       
     }
   },
   methods: {
-    check_plan(a){
-      console.log(a.target.selectedOptions[0].getAttribute('data_index'))
-      this.active_pt_a = a.target.selectedOptions[0].getAttribute('data_index')
-      this.mashu_list = [];
-      if(this.check_plan_list[this.active_pt_a].mashu.split(',').length>0 && this.check_plan_list[this.active_pt_a].mashu.split(',')[0]){
-        this.mashu_list = this.mashu_list.concat(this.check_plan_list[this.active_pt_a].mashu.split(','))
-      }
-      this.qishu_list = [];
-      if(this.check_plan_list[this.active_pt_a].qishu.split(',').length>0 && this.check_plan_list[this.active_pt_a].qishu.split(',')[0]){
-        this.qishu_list = this.qishu_list.concat(this.check_plan_list[this.active_pt_a].qishu.split(','))
-      }
-      console.log(arguments)
+    click_pt_a(){
+        this.show_mashu_a = false;
+        this.show_qishu_a = false;
+        this.show_pt_a = !this.show_pt_a;
+    },
+    click_ms_a(){
+        this.show_pt_a = false;
+        this.show_qishu_a = false;
+        this.show_mashu_a = !this.show_mashu_a;
+    },
+    click_qs_a(){
+        this.show_pt_a = false;
+        this.show_mashu_a = false;
+        this.show_qishu_a = !this.show_qishu_a;
+    },
+    change_pt_a(index){
+        this.show_pt_a = false;
+        this.active_mashu_a = 0;
+        this.active_qishu_a = 0;
+        this.active_pt_a = index;
+    },
+    change_ms_a(index){
+        this.show_mashu_a = false;
+        this.active_mashu_a = index;
+    },
+    change_qs_a(index){
+        this.show_qishu_a = false;
+        this.active_qishu_a = index;
     },
     click_check_plan(){
       if(!localStorage.getItem('uid_one') || !localStorage.getItem('sid_one')){
         this.show_zhuce = true
       }else{
         this.active_pt_a = this.active_pt;
-        this.check_plan_list = [];
-        this.check_plan_list = this.check_plan_list.concat(this.lottype[this.active_lt].playtypes)
-        this.mashu_list = [];
-        if(this.check_plan_list[this.active_pt_a].mashu.split(',').length>0 && this.check_plan_list[this.active_pt_a].mashu.split(',')[0]){
-          this.mashu_list = this.mashu_list.concat(this.check_plan_list[this.active_pt_a].mashu.split(','))
-        }
-        this.qishu_list = [];
-        if(this.check_plan_list[this.active_pt_a].qishu.split(',').length>0 && this.check_plan_list[this.active_pt_a].qishu.split(',')){
-          this.qishu_list = this.qishu_list.concat(this.check_plan_list[this.active_pt_a].qishu.split(','))
-        }
-        
-        this.active_mashu_a = 0;
-        this.active_qishu_a = 0;
-        // this.plantype_select_value = this.check_plan_list[this.active_pt_a].playtype
+        this.active_mashu_a = this.active_mashu;
+        this.active_qishu_a = this.active_qishu;
+
+        this.show_lt = false;
+        this.show_mashu = false;
+        this.show_qishu = false;
+        this.show_pt = false;
+        this.show_mashu_a = false;
+        this.show_qishu_a = false;
+        this.show_pt_a = false;
+
         this.show_change_plan = true;
       }
     },
@@ -457,11 +460,9 @@ export default {
       if(action == 'confirm'){
         this.user_plan_id = 0;
         this.lastid = 0;
-        console.log(this.plantype_select_value);
-        console.log(this.mashu_select_value);
-        console.log(this.qishu_select_value);
-        done(false);
-        return;
+        this.active_pt = this.active_pt_a;
+        this.active_mashu = this.active_mashu_a;
+        this.active_qishu = this.active_qishu_a;
         this.getplans();
       }
       done();
@@ -650,9 +651,9 @@ export default {
         this.current_time = this.planInfo.curtime*1000//当前时间
         this.isCurtime = false
         this.curTime();
-        this.countTime()
-
-        
+        // this.$store.dispatch('set_cur_timer',setTimeout(this.curTime, 1000))
+        // this.countTime()
+        this.$store.dispatch('set_timer',setTimeout(this.countTime, 1000))
         if(data.prekjnum == '开奖中...'){
             this.lastid = 0;
             this.$store.dispatch('set_kj_number_timer',setTimeout(()=>{
