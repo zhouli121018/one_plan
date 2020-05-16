@@ -781,12 +781,33 @@ export default {
     this.isFirstEnter=true;
     //判断 浏览器类型
     if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
-      
-      
       if(window.navigator.standalone){
         this.is_ios = false;
       }else{
         this.is_ios = true;
+      }
+    }
+    let ua = navigator.userAgent.toLowerCase();
+    let is_qqorwx = false;
+    if(ua.match(/MicroMessenger\/[0-9]/i) || ua.match(/QQ\/[0-9]/i)){
+        // this.$router.push('/home/qqOrwx');
+        is_qqorwx = true;
+    }
+    //判断 浏览器类型
+     if (!is_qqorwx && /(Android)/i.test(navigator.userAgent)) {
+      if(!navigator.userAgent.match(/lotapkinstalled/i)){
+        Dialog.confirm({
+          title: '温馨提示',
+          cancelButtonText:'关闭',
+          confirmButtonText:'安装/升级',
+          message: '请务必安装/升级APP以保持最新版本。'
+        }).then(() => {
+          // on confirm
+          document.getElementById('download_btn').click();
+        }).catch(() => {
+          
+          // on cancel
+        });
       }
     }
 
@@ -858,7 +879,69 @@ export default {
         this.getplans();
       })
     }else{
-      this.getplans();
+      if(this.$store.getters.homeData){
+        this.lottype = this.$store.getters.homeData.list;
+        if(localStorage.getItem('lottype_one') && localStorage.getItem('lottype_one')>0){
+          for(var i = 0;i<this.lottype.length;i++){
+            if(localStorage.getItem('lottype_one') == this.lottype[i].lottype){
+              this.active_lt = i;
+            }
+          }
+        }
+        if(localStorage.getItem('pos_type_one') && localStorage.getItem('playtype_one')){
+          let active_item = this.lottype[this.active_lt].playtypes;
+          for(var i=0;i<active_item.length;i++){
+            if(active_item[i].playtype==localStorage.getItem('playtype_one') && active_item[i].pos_type==localStorage.getItem('pos_type_one')){
+              this.active_pt = i;
+              let arr_mashu = active_item[i].mashu.split(',')
+              for(let k=0;k<arr_mashu.length;k++){
+                if(arr_mashu[k] == localStorage.getItem('mashu_one')){
+                  this.active_mashu = k;
+                }
+              }
+              let arr_qishu = active_item[i].qishu.split(',')
+              for(let k=0;k<arr_qishu.length;k++){
+                if(arr_qishu[k] == localStorage.getItem('qishu_one')){
+                  this.active_qishu = k;
+                }
+              }
+            }
+          }
+        }
+        this.getplans();
+      }else{
+        this.gethome().then(()=>{
+          if(localStorage.getItem('lottype_one') && localStorage.getItem('lottype_one')>0){
+            for(var i = 0;i<this.lottype.length;i++){
+              if(localStorage.getItem('lottype_one') == this.lottype[i].lottype){
+                this.active_lt = i;
+              }
+            }
+          }
+          if(localStorage.getItem('pos_type_one') && localStorage.getItem('playtype_one')){
+            let active_item = this.lottype[this.active_lt].playtypes;
+            for(var i=0;i<active_item.length;i++){
+              if(active_item[i].playtype==localStorage.getItem('playtype_one') && active_item[i].pos_type==localStorage.getItem('pos_type_one')){
+                this.active_pt = i;
+                let arr_mashu = active_item[i].mashu.split(',')
+                for(let k=0;k<arr_mashu.length;k++){
+                  if(arr_mashu[k] == localStorage.getItem('mashu_one')){
+                    this.active_mashu = k;
+                  }
+                }
+                let arr_qishu = active_item[i].qishu.split(',')
+                for(let k=0;k<arr_qishu.length;k++){
+                  if(arr_qishu[k] == localStorage.getItem('qishu_one')){
+                    this.active_qishu = k;
+                  }
+                }
+              }
+            }
+          }
+          this.getplans();
+        })
+      }
+      
       
     }
     
