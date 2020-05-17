@@ -823,7 +823,7 @@ export default {
           
         } else {
           if(this.$route.name == 'home'){
-            
+            this.$router.go(0)
           }
         }
     })

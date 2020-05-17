@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <title-bar title_name="新用户注册" />
+        <title-bar title_name="新用户注册" right_text="登录" right_url="/login/index"/>
         <div class="van_box">
             <van-field label="手机号" maxlength="11" type="number" clearable v-model="phone" placeholder="请输入手机号" />
         </div>
@@ -15,6 +15,9 @@
             <van-field label="邀请码" maxlength="11" type="number" :disabled="has_pid" class="van_field_code" clearable v-model="pid" :placeholder="regpiddes" />
         </div>
         <van-button style="background:#108FE9;color:#fff;border-radius:.1rem;" @click="regist">注册</van-button>
+        <div style="text-align:right;width:90%;margin:0 auto;padding-top:.3rem;">
+            <span style="color:#108FE9;font-size:.4rem;" @click="go_login">登录</span>
+        </div>
     </div>
 </template>
 
@@ -40,7 +43,9 @@ export default {
         }
     },
     methods: {
-        
+        go_login(){
+            this.$router.push('/login/index');
+        },
         async codeVerify() {
             const { data } = await getvcode({
                 phone: this.phone
