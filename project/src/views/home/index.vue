@@ -116,7 +116,10 @@
                   <span>历史开奖</span>
                 </div>
               </div>
-              <div style="padding:.2rem .4rem;color:#E8541E;border-top:1px solid #eeeeee;">{{planInfo.hitrate}}</div>
+              <div class="flex" style="padding:.2rem .4rem;color:#E8541E;border-top:1px solid #eeeeee;">
+                <span class="flex_grow_1">{{planInfo.hitrate}}</span>
+                <div @click="refresh" style="padding:.1rem .2rem;border:1px solid #E8541E;border-radiusw:.1rem;">刷新</div>
+              </div>
           </div>
 
           <div style="box-shadow:0 0 .2rem #EEEEEE;margin-top:.3rem;padding:.4rem 0 .7rem;font-size:.37rem; ">
@@ -384,6 +387,11 @@ export default {
     }
   },
   methods: {
+    refresh(){
+      this.lastid = 0;
+      this.user_plan_id = 0;
+      this.getplans();
+    },
     click_pt_a(){
         this.show_mashu_a = false;
         this.show_qishu_a = false;
@@ -1137,10 +1145,10 @@ table
         padding .2rem 0
         text-align center
         color #2B2B2B
-        font-size .35rem
+        font-size .38rem
           
     th
-        font-size .37rem
+        font-size .42rem
 
 button.active_color{
   background:#fc7953;
