@@ -381,7 +381,8 @@ export default {
       active_qishu_a:0,
       show_pt_a: false,
       show_mashu_a: false,
-      show_qishu_a: false
+      show_qishu_a: false,
+      last_time: 0
 
       
     }
@@ -603,6 +604,12 @@ export default {
         this.getplans();
     },
     async getplans() {
+        // let now = new Date().getTime();
+        // console.log(now-this.last_time)
+        // if(now-this.last_time<800){
+        //   return;
+        // }
+        // this.last_time = now;
         if(this.$store.getters.timer) {
             clearTimeout(this.$store.getters.timer)
             this.$store.dispatch('set_timer',null)
@@ -660,9 +667,18 @@ export default {
         this.isCurtime = false
         this.curTime();
         // this.$store.dispatch('set_cur_timer',setTimeout(this.curTime, 1000))
-        // this.countTime()
+
+        //时间差
+        let leftTime = this.endtime - this._curtime;
+        //定义变量 d,h,m,s保存倒计时的时间
+        this.h = Math.floor(leftTime / 1000 / 60 / 60 % 24)>=10?Math.floor(leftTime / 1000 / 60 / 60 % 24):'0'+Math.floor(leftTime / 1000 / 60 / 60 % 24);
+        this.m = Math.floor(leftTime / 1000 / 60 % 60)>=10?Math.floor(leftTime / 1000 / 60 % 60):'0'+Math.floor(leftTime / 1000 / 60 % 60);
+        this.s = Math.floor(leftTime / 1000 % 60)>=10?Math.floor(leftTime / 1000 % 60):'0'+Math.floor(leftTime / 1000 % 60);
+        this.kjdjs = this.h+':'+this.m+':'+this.s
+
+        this.countTime()
         
-        this.$store.dispatch('set_timer',setTimeout(this.countTime, 1000))
+        // this.$store.dispatch('set_timer',setTimeout(this.countTime, 1000))
         if(data.prekjnum == '开奖中...'){
             this.lastid = 0;
             this.$store.dispatch('set_kj_number_timer',setTimeout(()=>{
@@ -674,28 +690,24 @@ export default {
         
     },
     countTime () {
-        //时间差
         let leftTime = this.endtime - this._curtime;
-        //定义变量 d,h,m,s保存倒计时的时间
+        this.h = Math.floor(leftTime / 1000 / 60 / 60 % 24)>=10?Math.floor(leftTime / 1000 / 60 / 60 % 24):'0'+Math.floor(leftTime / 1000 / 60 / 60 % 24);
+        this.m = Math.floor(leftTime / 1000 / 60 % 60)>=10?Math.floor(leftTime / 1000 / 60 % 60):'0'+Math.floor(leftTime / 1000 / 60 % 60);
+        this.s = Math.floor(leftTime / 1000 % 60)>=10?Math.floor(leftTime / 1000 % 60):'0'+Math.floor(leftTime / 1000 % 60);
+        this.kjdjs = this.h+':'+this.m+':'+this.s
         if (leftTime >= 0) {
+            
+            // this.d = Math.floor(leftTime / 1000 / 60 / 60 / 24);
+            
+            //递归每秒调用countTime方法，显示动态时间效果
             if(leftTime == 0){
                 this.time_add = false;
                 this.lastid = 0
                 this.getplans();
-                if(this.$store.getters.timer) {
-                  clearTimeout(this.$store.getters.timer)
-                  this.$store.dispatch('set_timer',null)
-                }
-                return;
+            }else{
+              this.$store.dispatch('set_timer',setTimeout(this.countTime, 1000))
             }
             this._curtime = this._curtime + 1000
-            // this.d = Math.floor(leftTime / 1000 / 60 / 60 / 24);
-            this.h = Math.floor(leftTime / 1000 / 60 / 60 % 24)>=10?Math.floor(leftTime / 1000 / 60 / 60 % 24):'0'+Math.floor(leftTime / 1000 / 60 / 60 % 24);
-            this.m = Math.floor(leftTime / 1000 / 60 % 60)>=10?Math.floor(leftTime / 1000 / 60 % 60):'0'+Math.floor(leftTime / 1000 / 60 % 60);
-            this.s = Math.floor(leftTime / 1000 % 60)>=10?Math.floor(leftTime / 1000 % 60):'0'+Math.floor(leftTime / 1000 % 60);
-            this.kjdjs = this.h+':'+this.m+':'+this.s
-            //递归每秒调用countTime方法，显示动态时间效果
-            this.$store.dispatch('set_timer',setTimeout(this.countTime, 1000))
         }else {
             if(this.$store.getters.timer) {
                 clearTimeout(this.$store.getters.timer)
