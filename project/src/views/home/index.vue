@@ -690,15 +690,17 @@ export default {
         
     },
     countTime () {
+        if(this.$store.getters.timer) {
+            clearTimeout(this.$store.getters.timer)
+            this.$store.dispatch('set_timer',null)
+        }
         let leftTime = this.endtime - this._curtime;
         this.h = Math.floor(leftTime / 1000 / 60 / 60 % 24)>=10?Math.floor(leftTime / 1000 / 60 / 60 % 24):'0'+Math.floor(leftTime / 1000 / 60 / 60 % 24);
         this.m = Math.floor(leftTime / 1000 / 60 % 60)>=10?Math.floor(leftTime / 1000 / 60 % 60):'0'+Math.floor(leftTime / 1000 / 60 % 60);
         this.s = Math.floor(leftTime / 1000 % 60)>=10?Math.floor(leftTime / 1000 % 60):'0'+Math.floor(leftTime / 1000 % 60);
         this.kjdjs = this.h+':'+this.m+':'+this.s
         if (leftTime >= 0) {
-            
             // this.d = Math.floor(leftTime / 1000 / 60 / 60 / 24);
-            
             //递归每秒调用countTime方法，显示动态时间效果
             if(leftTime == 0){
                 this.time_add = false;
