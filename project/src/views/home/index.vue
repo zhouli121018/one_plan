@@ -817,8 +817,8 @@ export default {
         is_qqorwx = true;
     }
     //判断 浏览器类型
-     if (!is_qqorwx && /(Android)/i.test(navigator.userAgent)) {
-      if(!navigator.userAgent.match(/lotapkinstalled/i)){
+    if (!is_qqorwx && /(android)/i.test(ua)) {
+      if(!ua.match(/lotapkinstalled/i)){
         Dialog.confirm({
           title: '温馨提示',
           cancelButtonText:'关闭',
@@ -1123,6 +1123,8 @@ export default {
   right -0.2rem
   box-shadow 0 0 .1rem #aaa
   line-height 2
+  max-height 6rem
+  overflow auto
   >li.active
     color #ff5c0a
   >li
