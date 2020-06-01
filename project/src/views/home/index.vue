@@ -17,7 +17,7 @@
                 <!-- <van-icon name="" /> -->
                 <img src="~@/assets/home/down.png" style="width:.25rem;height:.15rem;position:relative;top:-0.06rem;"/>
               </span>
-              <ul class="right_top_ul" v-show="show_lt">
+              <ul class="right_top_ul" v-show="false && show_lt">
                 <li :class="{active:k== active_lt}" v-for="(l,k) in lottype" @click="change_lt(k)" :key="k">{{l.lotname}}</li>
               </ul>
             </div>
@@ -269,6 +269,17 @@
             <div style="padding:.4rem .2rem;line-height:1.6;">会员已过期，请免费获取会员天数。</div>
         </van-dialog>
 
+        <van-popup v-model="show_lt" position="bottom" :overlay="true">
+            <van-picker :default-index="active_lt" v-if="show_lt"
+              show-toolbar
+              title=""
+              :columns="pick_list"
+              @confirm="onConfirm"
+              @cancel="onCancel"
+              @change="onChange"
+              />
+        </van-popup> 
+
 
 
 
@@ -388,6 +399,22 @@ export default {
     }
   },
   methods: {
+    onConfirm(val){
+      this.show_lt = false
+      this.lastid = 0;
+      this.user_plan_id = 0;
+      this.active_mashu = 0;
+      this.active_qishu = 0;
+      this.active_pt = 0
+      this.active_lt = val.id;
+      this.getplans();
+    },
+    onCancel(){
+      this.show_lt = false
+    },
+    onChange(){
+
+    },
     refresh(){
       this.lastid = 0;
       this.user_plan_id = 0;
@@ -1075,6 +1102,20 @@ export default {
       }
       next();
   },
+  computed:{
+    pick_list(){
+      let arr= [];
+      for(let i=0;i<this.lottype.length;i++){
+        arr.push(
+          {
+            text:this.lottype[i].lotname,
+            lottype:this.lottype[i].lottype,
+            id:i
+          })
+      }
+      return arr
+    }
+  }
 }
 </script>
 
