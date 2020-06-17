@@ -125,6 +125,8 @@ export default {
         this.pid = localStorage.getItem('pid_one');
         if(localStorage.getItem('pid_one')){
             this.has_pid = true;
+        }else{
+            this.pid = '512704';
         }
         let u = navigator.userAgent, app = navigator.appVersion;
         let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //g
