@@ -5,7 +5,7 @@ export default {
     },
     request: {
         // www.yeev.vip
-        apiURL: '/one', // 项目线上域名
+        apiURL: '/', // 项目线上域名
         timeout: 100000  // 请求超时时间
     }
 }
